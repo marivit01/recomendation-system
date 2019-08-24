@@ -1,3 +1,4 @@
+#%%
 ## Imports
 import pandas as pd
 import numpy as np
@@ -14,21 +15,30 @@ import matplotlib.pyplot as plt
 # Para almacenar y obtener el modelo para predicciones futuras de un archivo .pkl.
 from sklearn.externals import joblib
 
+from IPython.display import HTML, display
+import time
+
+#%%
 """## Cargar el One Hot"""
+#%%
+import os.path
+fullpath = os.path.abspath('..\\recomendation-system\\backend\one_hot.csv')
+df = pd.read_csv(fullpath, encoding='latin-1')
 
-df = pd.read_csv('drive/Shared drives/Tesis/Proyecto de investigación/Modelo 2/Datos/one_hot.csv', encoding='latin-1')
-
+#%%
 """## Agrupar estudiantes y ordenar por trimestres"""
-
+#%%
 grouped = df.sort_values('trimestre').groupby(['estudiante'])
 print('grouped', grouped.get_group(10024705))
 
+#%%
 """## Separando el data set
-Se separa el dataset en train y test. Luego, se crean las variables X y Y con las que se van a entrenar al modelo.
+Se separa el dataset en train y test. Luego, se crean las variables X y Y con las que se van a entrenar al modelo."""
 
-**Auxiliar para mostrar el avance**
+#%%
+"""**Auxiliar para mostrar el avance**
 """
-
+#%%
 def progress(value, max=100):
     return HTML("""
         <progress
@@ -40,8 +50,9 @@ def progress(value, max=100):
         </progress>
     """.format(value=value, max=max))
 
+#%%
 """**Estableciendo la y de cada x**"""
-
+#%%
 # Contains all codes for asignatures in pensum of System Engineer
 all_assigns = ['FBTCE03','FBTMM00','FBTHU01','FBTIE02','BPTQI21','BPTMI04','FBPIN01'
 ,'BPTPI07','FBPLI02','FBTIN04','FGE0000','FBPCE04','FBPMM02','FBTIN05'
@@ -53,6 +64,9 @@ all_assigns = ['FBTCE03','FBTMM00','FBTHU01','FBTIE02','BPTQI21','BPTMI04','FBPI
 ,'FPTMI21','BPTSP04','FPTSP01','FPTSP18','FPTSP22','FPTSP17','FPTPI09'
 ,'FPTSP11','FPTSP04','FPTSP02','BPTDI01-2','FPTSP23','FPTSP19','FPTSP07'
 ,'FPTSP25','FPTSP21','FPTIS01']
+
+#%%
+## Formateando la data
 
 array_data = [] # Contains the history of trimestres
 array_target=[] # The target trimestres
@@ -124,6 +138,7 @@ for est, est_group in grouped:
     # Arma el array_target_output
     array_target_output.append(est_group.iloc[ num+1 , 3:].values)
 
+#%%
 """**Estableciendo el target para cada entrada**
 
 Se crea un array de targets, en el que para cada row del array de trimestres objetivo (target): 
@@ -132,6 +147,7 @@ Se crea un array de targets, en el que para cada row del array de trimestres obj
 *   Se asigna 0 si reprobó/retiró alguna materia.
 """
 
+#%%
 # Se crea el array de targets que tiene 0 si el estudiante reprobo o retiro alguna materia en el trimestre target, y 1 en caso contrario
 
 arr_target = np.asarray(array_target_output)
@@ -159,15 +175,18 @@ for idx,item in enumerate(arr_target):
   if reprobo == 0 and retiro == 0:
     sigm_target[idx] = 1
 
+#%%
 print(sigm_target.shape)
 print(sigm_target)
 
+#%%
 """**Adaptando el y de cada x**"""
-
+#%%
 print(array_data)
 
+#%%
 """**Separando el conjunto de datos en los conjuntos de train, dev y test**"""
-
+#%%
 # Se separa el dataset en la proporción 80-20-20 para train, dev y test respectivamente
 array_data = np.asarray(array_data)
 array_target = np.asarray(array_target)
@@ -187,11 +206,13 @@ print(Y_test.shape)
 print(O_test.shape)
 print(array_data.shape)
 
+#%%
 """## Definición del modelo
 
 Se construye un modelo que recibe dos entradas, un array de los trimestres del estudiante, y otro del trimestre objetivo o target, y un output tipo sigmoide que indica 1 si el estudiante pasará todas las materias, y 0 en caso contrario.
 """
 
+#%%
 def model_opc1():
   # Se definen dos inputs
   main_input = Input(shape=(29,264), name='main_input')
@@ -230,6 +251,7 @@ def model_opc1():
   
   return (model, history)
 
+#%%
 def model_opc2():
   # Se definen dos inputs
   main_input = Input(shape=(29,264), name='main_input')
@@ -271,12 +293,16 @@ def model_opc2():
 
   return (model, history)
 
+#%%
 model_1, history_m1 = model_opc1()
 
+#%%
 model_2, history_m2 = model_opc2()
 
+#%%
 """## Graficar modelo"""
 
+#%%
 def graf_model(train_history):
     f = plt.figure(figsize=(15,10))
     ax = f.add_subplot(121)
@@ -297,13 +323,16 @@ def graf_model(train_history):
     ax2.legend(['train', 'test'], loc='upper left')
     plt.show()
 
-# graf_model(history_m1)
+#%%
+graf_model(history_m1)
 
-# graf_model(history_m2)
+#%%
+graf_model(history_m2)
 
+#%%
 """## Test del modelo"""
-
-# print(Y_test.shape)
+#%%
+print(Y_test.shape)
 
 # # x_test_df = pd.DataFrame(X_test)
 # y_test_df = pd.DataFrame(Y_test)
@@ -313,31 +342,32 @@ def graf_model(train_history):
 # # !cp x_test_def.csv drive/Shared\ drives/Tesis/Proyecto\ de\ investigación/Modelo\ 2/Datos
 # !cp y_test_def.csv drive/Shared\ drives/Tesis/Proyecto\ de\ investigación/Modelo\ 2/Datos
 
-
+#%%
 """*Cargar archivos para probar de forma manual*"""
-
+#%%
 # np_load_test = np.load
 # np.load = lambda *a,**k: np_load_test(*a, allow_pickle=True, **k)
 
-
-
 # # np.load = np_load_test
 
+#%%
 # array_data_test = np.load('drive/Shared drives/Tesis/Proyecto de investigación/Modelo 2/Datos/array_data_df.npy')
 # array_target_test = np.load('drive/Shared drives/Tesis/Proyecto de investigación/Modelo 2/Datos/array_target_df.npy')
-
+#%%
 # print(array_data_test)
 # print(array_target_test)
 
+#%%
 """*Respuesta*"""
-
+#%%
 # Y_hat = model_2.predict([array_data_test, array_target_test])
 
 # print(Y_hat)
 # # print(O_test)
 
+#%%
 """*Subir un excel con el resultado a drive*"""
-
+#%%
 # mercy_hat_df = pd.DataFrame(Y_hat)
 # y_df = pd.DataFrame(O_test)
 
@@ -347,6 +377,7 @@ def graf_model(train_history):
 # !cp y_hat_df_model_2_opc_2.xlsx drive/Shared\ drives/Tesis/Proyecto\ de\ investigación/Modelo\ 2/Datos
 # !cp y_df_model_2_opc_2.xlsx drive/Shared\ drives/Tesis/Proyecto\ de\ investigación/Modelo\ 2/Datos
 
+#%%
 """## Referencias
 
 https://www.pyimagesearch.com/2019/02/04/keras-multiple-inputs-and-mixed-data/
