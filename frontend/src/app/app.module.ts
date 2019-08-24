@@ -8,10 +8,12 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 // Imports Angular Material
 import {MatTableModule} from '@angular/material/table';
+import { HomeComponent } from './components/home/home.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,

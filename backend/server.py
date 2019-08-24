@@ -31,6 +31,7 @@ def predict():
     data = request.get_json(force=True)
     output = model.predict([array_data_test, array_target_test])
     # output = prediction[0]
+    print(output)
     return jsonify(output)
 
 if __name__ == '__main__':

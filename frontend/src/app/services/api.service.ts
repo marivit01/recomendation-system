@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import {HttpClient, HttpErrorResponse} from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { ProbabilityPrediction } from '../models/prediction';
 
 @Injectable({
   providedIn: 'root'
@@ -11,18 +12,16 @@ export class ApiService {
   constructor(private http: HttpClient) {
   }
 
-  // private static _handleError(err: HttpErrorResponse | any) {
-  //   return Observable.throw(err.message || 'Error: Unable to complete request.');
-  // }
+  public predictStudentPerformance(parameters): Promise<any> {
+    return new Promise<any>((resolve, reject) => {
+      this.http.post(`${this.API_URL}predict`, parameters).toPromise().then(res => {
+        console.log(res);
+        resolve(res);
+      }).catch(err => {
+        console.error( 'Error: Unable to complete request.', err);
+        reject();
+      });
+    });
+  }
 
-  // // GET list of public, future events
-  // getExams(): Observable<Exam[]> {
-  //   return this.http
-  //     .get(`${this.API_URL}/exams`)
-  //     .catch(ApiService._handleError);
-  // }
-
-//   public trainModel(svcParameters: SVCParameters): Observable<SVCResult> {
-//     return this.http.post(`${this.API_URL}train`, svcParameters).map((res) => res.json());
-// }
 }

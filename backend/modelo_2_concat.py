@@ -22,7 +22,7 @@ import time
 """## Cargar el One Hot"""
 #%%
 import os.path
-fullpath = os.path.abspath('..\\recomendation-system\\backend\one_hot.csv')
+fullpath = os.path.abspath('..\\recomendation-system\\datos\one_hot.csv')
 df = pd.read_csv(fullpath, encoding='latin-1')
 
 #%%
