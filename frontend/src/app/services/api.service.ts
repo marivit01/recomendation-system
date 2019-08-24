@@ -22,7 +22,7 @@ export class ApiService {
   //     .catch(ApiService._handleError);
   // }
 
-  public trainModel(svcParameters: SVCParameters): Observable<SVCResult> {
-    return this.http.post(`${this.API_URL}train`, svcParameters).map((res) => res.json());
-}
+//   public trainModel(svcParameters: SVCParameters): Observable<SVCResult> {
+//     return this.http.post(`${this.API_URL}train`, svcParameters).map((res) => res.json());
+// }
 }
