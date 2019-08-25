@@ -1,0 +1,56 @@
+<div class="container">
+    <mat-card class="card">
+        <!-- <button mat-button (click)="goBack()">
+            <i class="material-icons md-40">
+                arrow_back
+            </i>
+        </button> -->
+        <mat-horizontal-stepper class="stepper-box" linear="true" #stepper>
+            <mat-step [stepControl]="firstFormGroup">
+                <form [formGroup]="firstFormGroup">
+                    <ng-template matStepLabel>Ingrese el id del estudiante</ng-template>
+                    <mat-form-field class="full-width py-3">
+                        <input matInput placeholder="Identificador" formControlName="id" required>
+                    </mat-form-field>
+                    <div>
+                        <button mat-button matStepperNext (click)="goBack()" class="med-width">Volver al inicio</button>
+                        <button mat-button matStepperNext (click)="nextStep(1)" class="med-width">Siguiente</button>
+                    </div>
+                </form>
+            </mat-step>
+            <mat-step [stepControl]="secondFormGroup">
+                <!-- <form [formGroup]="secondFormGroup">
+                    <mat-form-field>
+                        <input matInput placeholder="Address" formControlName="secondCtrl" required>
+                    </mat-form-field>
+                    <div>
+                        <button mat-button matStepperPrevious class="med-width">Back</button>
+                        <button mat-button matStepperNext class="med-width">Next</button>
+                    </div>
+                </form> -->
+                <ng-template matStepLabel>Seleccione las materias a inscribir en el nuevo trimestre</ng-template>
+                <drag-and-drop [id]="firstFormGroup.value.id" (targetSubjects)="saveSelection($event)"></drag-and-drop>
+                <div>
+                    <button mat-button matStepperPrevious class="med-width">Atrás</button>
+                    <button mat-button matStepperNext class="med-width">Siguiente</button>
+                </div>
+            </mat-step>
+            <mat-step>
+                <ng-template matStepLabel>Resultado</ng-template>
+                <div class="result-grid py-2">
+                    <!-- <img class="icon" [src]="success ? '../../../assets/happy.png' : '../../../assets/sad.png'" /> -->
+                    <i class="material-icons md-90" [ngClass]="success ? 'md-success' : 'md-danger'">
+                        {{ success ? 'check_circle_outline' : 'error_outline'}}
+                    </i>
+                    <p> {{ success ? 'El estudiante aprobará todas las materias ingresadas' : 'El estudiante no aprobará todas las materias ingresadas'}}
+                    </p>
+
+                </div>
+                <div>
+                    <button mat-button matStepperPrevious class="med-width">Atrás</button>
+                    <button mat-button (click)="stepper.reset()" class="med-width">Resetear</button>
+                </div>
+            </mat-step>
+        </mat-horizontal-stepper>
+    </mat-card>
+</div>

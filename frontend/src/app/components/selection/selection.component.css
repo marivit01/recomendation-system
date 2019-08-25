@@ -1,0 +1,30 @@
+.stepper-box {
+    min-height: 330px;
+    height: auto;
+    min-width: 70vw;
+    padding: 20px;
+}
+
+.full-width {
+    width: 100%;
+}
+
+.med-width {
+    width: 50%;
+}
+
+.card {
+    margin: 40px;
+}
+
+.mat-horizontal-content-container {
+    padding: 0 24px;
+}
+
+.result-grid {
+    display: grid;
+    grid-template-rows: repeat(2, auto);
+    grid-gap: 10px;
+    justify-content: center;
+    text-align: center;
+}

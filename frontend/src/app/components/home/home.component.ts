@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ApiService } from 'src/app/services/api.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -8,22 +8,18 @@ import { ApiService } from 'src/app/services/api.service';
 })
 export class HomeComponent implements OnInit {
 
-  predictionResult;
-
-  constructor(private apiService: ApiService) { }
+  constructor(private router: Router) { }
 
   ngOnInit() {
-    this.predict();
   }
 
-  predict() {
-    // parameters: X y Y
-    const parameters = [];
-    this.apiService.predictStudentPerformance(parameters).then( res => {
-      console.log("res", res);
-      
-      this.predictionResult = res;
-    });
+  selectOption(opc: number) {
+    switch (opc) {
+      case 1:
+        // this.router.navigate(['/selection']);
+      case 2:
+        this.router.navigate(['/selection']);
+    }
   }
 
 }
