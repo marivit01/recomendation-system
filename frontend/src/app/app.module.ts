@@ -9,6 +9,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 // Imports Angular Material
 import {MatTableModule} from '@angular/material/table';
 import { HomeComponent } from './components/home/home.component';
+import { HttpClientModule, HttpClient } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -20,9 +21,10 @@ import { HomeComponent } from './components/home/home.component';
     AppRoutingModule,
     BrowserAnimationsModule,
     // Imports Angular Material
-    MatTableModule
+    MatTableModule,
+    HttpClientModule,
   ],
-  providers: [],
+  providers: [ ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

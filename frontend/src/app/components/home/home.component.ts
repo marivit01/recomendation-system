@@ -13,12 +13,15 @@ export class HomeComponent implements OnInit {
   constructor(private apiService: ApiService) { }
 
   ngOnInit() {
+    this.predict();
   }
 
   predict() {
     // parameters: X y Y
     const parameters = [];
     this.apiService.predictStudentPerformance(parameters).then( res => {
+      console.log("res", res);
+      
       this.predictionResult = res;
     });
   }
