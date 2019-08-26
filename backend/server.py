@@ -19,6 +19,8 @@ import os.path
 
 import sys
 
+from adaptx import adaptX
+
 # declare constants
 HOST = '0.0.0.0'
 PORT = 8081
@@ -33,17 +35,17 @@ CORS(app)
 def hello():
     return jsonify({'text':'Hello World!'})
 
-@app.route('/api/predict',methods=['POST']) #http://localhost:8081/api/predict
-def predict():
+@app.route('/api/predict/<studentId>')#,methods=['POST']) #http://localhost:8081/api/predict
+def predict(studentId):
     #Esto será sustituido por los parametros que se pasará. Se supone debe preprocesarse la data
     dataTestPath = os.path.abspath('..\\recomendation-system\\datos\modelos\\array_data_df.npy')
-    targetTestPath = os.path.abspath('..\\recomendation-system\\datos\modelos\\array_target_df.npy')
-    array_data_test = np.load(dataTestPath)
+    targetTestPath = os.path.abspath('..\\datos\modelos\\array_target_df.npy')
+    array_data_test = adaptX(studentId)
     array_target_test = np.load(targetTestPath)
 
     print("array", array_data_test.shape, array_target_test.shape, file=sys.stderr)
 
-    modelPath = os.path.abspath('..\\recomendation-system\\datos\modelos\\model2.pkl')
+    modelPath = os.path.abspath('..\\datos\modelos\\model2.pkl')
     model = joblib.load(open(modelPath,'rb'))
     print('model', file=sys.stderr)
     print('modellll',model.summary(), file=sys.stderr)
