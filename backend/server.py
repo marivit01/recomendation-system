@@ -38,7 +38,7 @@ def hello():
 
 @app.route('/api/getassigns/<studentId>')#,methods=['POST'])
 def getAssignsCall(studentId):
-    return jsonify(getAssigns(studentId)) #regresa una lista de los códigos que el estudiante vio durante su carrera
+    return jsonify(getAssigns(studentId)) #regresa una lista de los códigos de asignaturas que el estudiante ha visto
 
 @app.route('/api/predict/<studentId>')#,methods=['POST']) #http://localhost:8081/api/predict
 def predict(studentId):
