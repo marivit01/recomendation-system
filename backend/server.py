@@ -20,6 +20,7 @@ import os.path
 import sys
 
 from adaptx import adaptX
+from getAssigns import getAssigns
 
 # declare constants
 HOST = '0.0.0.0'
@@ -34,6 +35,10 @@ CORS(app)
 @app.route("/")
 def hello():
     return jsonify({'text':'Hello World!'})
+
+@app.route('/api/getassigns/<studentId>')#,methods=['POST'])
+def getAssignsCall(studentId):
+    return jsonify(getAssigns(studentId)) #regresa una lista de los códigos que el estudiante vio durante su carrera
 
 @app.route('/api/predict/<studentId>')#,methods=['POST']) #http://localhost:8081/api/predict
 def predict(studentId):
