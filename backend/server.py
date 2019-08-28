@@ -21,6 +21,7 @@ import sys
 
 from adaptx import adaptX
 from getAssigns import getAssigns
+from adapty import adapty
 
 # declare constants
 HOST = '0.0.0.0'
@@ -40,13 +41,16 @@ def hello():
 def getAssignsCall(studentId):
     return jsonify(getAssigns(studentId)) #regresa una lista de los códigos de asignaturas que el estudiante ha visto
 
-@app.route('/api/predict/<studentId>')#,methods=['POST']) #http://localhost:8081/api/predict
-def predict(studentId):
+@app.route('/api/predict/<studentId>/<targetTrim>')#,methods=['POST']) #http://localhost:8081/api/predict
+def predict(studentId, targetTrim):
     #Esto será sustituido por los parametros que se pasará. Se supone debe preprocesarse la data
     dataTestPath = os.path.abspath('..\\recomendation-system\\datos\modelos\\array_data_df.npy')
-    targetTestPath = os.path.abspath('..\\datos\modelos\\array_target_df.npy')
+    # targetTestPath = os.path.abspath('..\\datos\modelos\\array_target_df.npy')
     array_data_test = adaptX(studentId)
-    array_target_test = np.load(targetTestPath)
+    # array_target_test = np.load(targetTestPath)
+    array_target_test = adapty(targetTrim)
+
+    print("target", array_target_test)
 
     print("array", array_data_test.shape, array_target_test.shape, file=sys.stderr)
 
