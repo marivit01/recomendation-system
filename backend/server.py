@@ -11,6 +11,7 @@ import numpy as np
 
 from keras.layers import Input, Dropout, Dense, Flatten, Activation, LSTM, Bidirectional, Concatenate
 from keras.models import Model
+from keras import backend as K
 
 # Para almacenar y obtener el modelo para predicciones futuras de un archivo .pkl.
 from sklearn.externals import joblib
@@ -42,27 +43,28 @@ def hello():
 def getSubjectsCall(studentId):
     return jsonify(getAvailableSubjects(studentId)) 
 
-@app.route('/api/predict/<studentId>/<targetTrim>',methods=['POST']) #http://localhost:8081/api/predict
-def predict(studentId, targetTrim):
-    #Esto será sustituido por los parametros que se pasará. Se supone debe preprocesarse la data
-    # dataTestPath = os.path.abspath('..\\recomendation-system\\datos\modelos\\array_data_df.npy')
-    # targetTestPath = os.path.abspath('..\\datos\modelos\\array_target_df.npy')
-    array_data_test = adaptX(studentId)
-    # array_target_test = np.load(targetTestPath)
-    array_target_test = adapty(targetTrim)
+@app.route('/api/predict/<studentId>',methods=['POST']) #http://localhost:8081/api/predict
+def predict(studentId):
 
-    print("target", array_data_test)
+    #Before prediction
+    K.clear_session()
+
+    targetTrim =  request.get_json(force=True)
+    print("TARGET:",targetTrim)
+    array_target_test = adapty(targetTrim)
+    array_data_test = adaptX(studentId)
+    print("DATA X:", array_data_test)
 
     print("array", array_data_test.shape, array_target_test.shape, file=sys.stderr)
 
     modelPath = os.path.abspath('..\\datos\modelos\\model2.pkl')
     model = joblib.load(open(modelPath,'rb'))
-    print('model', file=sys.stderr)
-    print('modellll',model.summary(), file=sys.stderr)
-    # data = request.get_json(force=True)
+
     output = model.predict([array_data_test, array_target_test])
-    # output = prediction[0]
     print(output, file=sys.stderr)
+
+    #After prediction
+    K.clear_session()
     return jsonify(output.tolist())
 
 if __name__ == '__main__':

@@ -13,8 +13,9 @@ export class SelectionComponent implements OnInit {
   secondFormGroup: FormGroup;
   success = false;
   predictionResult;
+  studentId: any;
 
-  constructor(private apiService: ApiService, private formBuilder: FormBuilder, private location: Location) {}
+  constructor(private apiService: ApiService, private formBuilder: FormBuilder, private location: Location) { }
 
   ngOnInit() {
     this.createForms();
@@ -30,29 +31,52 @@ export class SelectionComponent implements OnInit {
   }
 
   nextStep(step) {
-    console.log(step, this.firstFormGroup.value);
-    this.secondFormGroup.reset();
+    switch (step) {
+      case 1:
+        console.log(step, this.firstFormGroup.value);
+        this.studentId = this.firstFormGroup.value.id;
+        break;
+      case 2:
+        this.predict();
+        break;
+    }
+
   }
 
   saveSelection(event) {
     console.log(event);
     console.log(this.secondFormGroup.value.targetSubjects);
-    this.secondFormGroup.setValue({targetSubjects: event});
+    this.secondFormGroup.setValue({ targetSubjects: event });
     console.log(this.secondFormGroup.value.targetSubjects);
   }
 
   goBack() {
-    this.location.back()
+    this.location.back();
   }
 
   predict() {
-    const studentId = this.firstFormGroup.value.id;
     const targetQuarter = this.secondFormGroup.value.targetSubjects;
-    this.apiService.predictStudentPerformance(studentId, targetQuarter).then(res => {
+    this.apiService.predictStudentPerformance(this.studentId, targetQuarter).then(res => {
       console.log('res', res);
-
-      this.predictionResult = res;
+      this.predictionResult = res[0][0];
+      console.log(this.predictionResult);
+      if (this.predictionResult >= 0.5) {
+        this.success = true;
+      } else {
+        this.success = false;
+      }
     });
+  }
+
+  selectionChange(event) {
+    console.log(event);
+    // switch (event.selectedIndex) {
+    //   case 0:
+    // }
+  }
+
+  reset() {
+    this.secondFormGroup.reset();
   }
 
 }

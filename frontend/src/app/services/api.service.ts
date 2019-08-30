@@ -14,8 +14,8 @@ export class ApiService {
 
   public predictStudentPerformance(id, target): Promise<any> {
     return new Promise<any>((resolve, reject) => {
-      this.http.post(`${this.API_URL}predict/${id}/${JSON.stringify(target)}`, id, target).toPromise().then(res => {
-        console.log('get subjects', res);
+      this.http.post(`${this.API_URL}predict/${id}`, target).toPromise().then(res => {
+        console.log('get result', res);
         resolve(res);
       }).catch(err => {
         console.error( 'Error: Unable to complete request.', err);
