@@ -18,6 +18,8 @@ def adapty(assigns_trim_target):
     ,'FPTSP11','FPTSP04','FPTSP02','BPTDI01-2','FPTSP23','FPTSP19','FPTSP07'
     ,'FPTSP25','FPTSP21','FPTIS01']
 
+    print('LEEEEEEEEEENGTH', all_assigns.__len__())
+
     only_assigns = {}
     for assign_zero in all_assigns:
       only_assigns[assign_zero] = 0
@@ -27,4 +29,5 @@ def adapty(assigns_trim_target):
       only_assigns[assign] = 1
       
     array_target.append(np.array( tuple(only_assigns.values()) ))
+    print('SHAAAAAAAPE', np.asarray(array_target).shape)
     return np.asarray(array_target)

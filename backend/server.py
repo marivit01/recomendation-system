@@ -51,7 +51,7 @@ def predict(studentId, targetTrim):
     # array_target_test = np.load(targetTestPath)
     array_target_test = adapty(targetTrim)
 
-    print("target", array_target_test)
+    print("target", array_data_test)
 
     print("array", array_data_test.shape, array_target_test.shape, file=sys.stderr)
 
