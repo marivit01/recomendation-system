@@ -38,11 +38,11 @@ def hello():
     return jsonify({'text':'Hello World!'})
 
 # Función que regresa una lista de los códigos y nombres de las asignaturas que el estudiante no ha visto
-@app.route('/api/getSubjects/<studentId>')#,methods=['POST'])
+@app.route('/api/getSubjects/<studentId>',methods=['POST'])
 def getSubjectsCall(studentId):
     return jsonify(getAvailableSubjects(studentId)) 
 
-@app.route('/api/predict/<studentId>/<targetTrim>')#,methods=['POST']) #http://localhost:8081/api/predict
+@app.route('/api/predict/<studentId>/<targetTrim>',methods=['POST']) #http://localhost:8081/api/predict
 def predict(studentId, targetTrim):
     #Esto será sustituido por los parametros que se pasará. Se supone debe preprocesarse la data
     # dataTestPath = os.path.abspath('..\\recomendation-system\\datos\modelos\\array_data_df.npy')

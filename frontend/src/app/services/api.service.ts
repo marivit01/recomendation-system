@@ -15,7 +15,7 @@ export class ApiService {
   public predictStudentPerformance(id, target): Promise<any> {
     return new Promise<any>((resolve, reject) => {
       this.http.post(`${this.API_URL}predict`, id, target).toPromise().then(res => {
-        console.log(res);
+        console.log('get subjects', res);
         resolve(res);
       }).catch(err => {
         console.error( 'Error: Unable to complete request.', err);
@@ -26,7 +26,7 @@ export class ApiService {
 
   public getAvailableSubjects(studentId): Promise<any> {
     return new Promise<any>((resolve, reject) => {
-      this.http.post(`${this.API_URL}getSubjects`, studentId).toPromise().then(res => {
+      this.http.post(`${this.API_URL}getSubjects/${studentId}`, '').toPromise().then(res => {
         console.log(res);
         resolve(res);
       }).catch(err => {

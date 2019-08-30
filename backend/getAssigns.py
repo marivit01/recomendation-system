@@ -30,7 +30,7 @@ def getAvailableSubjects(studentId):
     availableSubjects = subjectNames[~mask]
 
     # Se llama a la función para transformar las materias disponibles en un array con {code, name}
-    availableSubjectsFormatted = getSubjectsNames(available)
+    availableSubjectsFormatted = getSubjectsNames(availableSubjects)
     return availableSubjectsFormatted
 
 # Función que recibe un array de las materias que un estudiante no ha visto, 
