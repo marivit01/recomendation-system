@@ -32,7 +32,7 @@
                 <drag-and-drop [id]="firstFormGroup.value.id" (targetSubjects)="saveSelection($event)"></drag-and-drop>
                 <div>
                     <button mat-button matStepperPrevious class="med-width">Atrás</button>
-                    <button mat-button matStepperNext class="med-width">Siguiente</button>
+                    <button mat-button matStepperNext class="med-width" (click)="predict()">Siguiente</button>
                 </div>
             </mat-step>
             <mat-step>

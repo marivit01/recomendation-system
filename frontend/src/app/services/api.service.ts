@@ -12,9 +12,21 @@ export class ApiService {
   constructor(private http: HttpClient) {
   }
 
-  public predictStudentPerformance(parameters): Promise<any> {
+  public predictStudentPerformance(id, target): Promise<any> {
     return new Promise<any>((resolve, reject) => {
-      this.http.post(`${this.API_URL}predict`, parameters).toPromise().then(res => {
+      this.http.post(`${this.API_URL}predict`, id, target).toPromise().then(res => {
+        console.log(res);
+        resolve(res);
+      }).catch(err => {
+        console.error( 'Error: Unable to complete request.', err);
+        reject();
+      });
+    });
+  }
+
+  public getAvailableSubjects(studentId): Promise<any> {
+    return new Promise<any>((resolve, reject) => {
+      this.http.post(`${this.API_URL}getSubjects`, studentId).toPromise().then(res => {
         console.log(res);
         resolve(res);
       }).catch(err => {

@@ -46,10 +46,10 @@ export class SelectionComponent implements OnInit {
   }
 
   predict() {
-    // parameters: X y Y
-    const parameters = [];
-    this.apiService.predictStudentPerformance(parameters).then(res => {
-      console.log("res", res);
+    const studentId = this.firstFormGroup.value.id;
+    const targetQuarter = this.secondFormGroup.value.targetSubjects;
+    this.apiService.predictStudentPerformance(studentId, targetQuarter).then(res => {
+      console.log('res', res);
 
       this.predictionResult = res;
     });

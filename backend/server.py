@@ -20,7 +20,7 @@ import os.path
 import sys
 
 from adaptx import adaptX
-from getAssigns import getAssigns
+from getAssigns import getAvailableSubjects
 from adapty import adapty
 
 # declare constants
@@ -37,14 +37,15 @@ CORS(app)
 def hello():
     return jsonify({'text':'Hello World!'})
 
-@app.route('/api/getassigns/<studentId>')#,methods=['POST'])
-def getAssignsCall(studentId):
-    return jsonify(getAssigns(studentId)) #regresa una lista de los códigos de asignaturas que el estudiante ha visto
+# Función que regresa una lista de los códigos y nombres de las asignaturas que el estudiante no ha visto
+@app.route('/api/getSubjects/<studentId>')#,methods=['POST'])
+def getSubjectsCall(studentId):
+    return jsonify(getAvailableSubjects(studentId)) 
 
 @app.route('/api/predict/<studentId>/<targetTrim>')#,methods=['POST']) #http://localhost:8081/api/predict
 def predict(studentId, targetTrim):
     #Esto será sustituido por los parametros que se pasará. Se supone debe preprocesarse la data
-    dataTestPath = os.path.abspath('..\\recomendation-system\\datos\modelos\\array_data_df.npy')
+    # dataTestPath = os.path.abspath('..\\recomendation-system\\datos\modelos\\array_data_df.npy')
     # targetTestPath = os.path.abspath('..\\datos\modelos\\array_target_df.npy')
     array_data_test = adaptX(studentId)
     # array_target_test = np.load(targetTestPath)

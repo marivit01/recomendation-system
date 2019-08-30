@@ -4,7 +4,7 @@
 
         <div cdkDropList [cdkDropListData]="test" class="asignatures-list" cdkDropListSortingDisabled
             (cdkDropListDropped)="drop($event)">
-            <div class="asignature-box" *ngFor="let item of test" cdkDrag>{{item.name}}</div>
+            <div class="asignature-box" *ngFor="let item of allSubjects" cdkDrag>{{item.name}}</div>
         </div>
     </div>
 
