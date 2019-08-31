@@ -19,6 +19,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import {DragDropModule} from '@angular/cdk/drag-drop';
 import { DragAndDropComponent } from './components/selection/drag-and-drop/drag-and-drop.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @NgModule({
   declarations: [
@@ -42,7 +43,7 @@ import { DragAndDropComponent } from './components/selection/drag-and-drop/drag-
     MatFormFieldModule,
     MatInputModule,
     DragDropModule,
-
+    MatProgressSpinnerModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

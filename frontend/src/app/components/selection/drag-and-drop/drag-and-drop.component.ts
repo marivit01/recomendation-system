@@ -9,7 +9,9 @@ import { ApiService } from 'src/app/services/api.service';
 })
 export class DragAndDropComponent implements OnInit, OnChanges {
   @Input() id: string;
+  @Input() loading;
   @Output() targetSubjects = new EventEmitter<string[]>();
+  @Output() loaded = new EventEmitter<boolean>();
 
   allSubjects = [];
   // allSignatures = [
@@ -52,8 +54,8 @@ export class DragAndDropComponent implements OnInit, OnChanges {
   ngOnInit() {
   }
 
-  ngOnChanges() {
-    console.log(this.id);
+  ngOnChanges(changes) {
+    console.log(changes);
     if (this.id) {
       // Se llama la funcion para obtener las materias disponibles por id del estudiante, y guardarla en allSignatures
       this.getAvailableSubjects(this.id);
@@ -64,6 +66,7 @@ export class DragAndDropComponent implements OnInit, OnChanges {
     this.apiService.getAvailableSubjects(id).then(res => {
       console.log('res', res);
       this.allSubjects = res;
+      this.loaded.emit(false);
     });
   }
 

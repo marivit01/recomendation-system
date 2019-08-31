@@ -14,6 +14,8 @@ export class SelectionComponent implements OnInit {
   success = false;
   predictionResult;
   studentId: any;
+  loading = false;
+  loadingPred: boolean;
 
   constructor(private apiService: ApiService, private formBuilder: FormBuilder, private location: Location) { }
 
@@ -33,14 +35,20 @@ export class SelectionComponent implements OnInit {
   nextStep(step) {
     switch (step) {
       case 1:
+        this.loading = true;
         console.log(step, this.firstFormGroup.value);
         this.studentId = this.firstFormGroup.value.id;
         break;
       case 2:
+        this.loadingPred = true;
         this.predict();
         break;
     }
+  }
 
+  loaded(event) {
+    console.log(event);
+    this.loading = event;
   }
 
   saveSelection(event) {
@@ -65,14 +73,9 @@ export class SelectionComponent implements OnInit {
       } else {
         this.success = false;
       }
+      this.loadingPred = false;
     });
-  }
-
-  selectionChange(event) {
-    console.log(event);
-    // switch (event.selectedIndex) {
-    //   case 0:
-    // }
+    // }).finally(() => { console.log("final"); });
   }
 
   reset() {

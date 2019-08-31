@@ -17,6 +17,13 @@ def getAvailableSubjects(studentId):
     assigns_trim_target_aux = []
     for assign in assigns_trim_target:
         print(assign.split('_')[0])
+        # Validacion para no incluir la materia en el array de materias vistas si el estudiante no la ha pasado (reprobado o retirado)
+        if (assign.split('_')[1] == "Reprobo" or assign.split('_')[1] == "R"):
+            print("aqui paso algo",assign.split('_')[1])
+            continue
+        # Validacion para no incluir como vista la materia Electiva, para que el estudiante pueda elegirla siempre como opcion
+        if (assign.split('_')[0] == "FGE0000"):
+            continue
         assigns_trim_target_aux = np.append(assigns_trim_target_aux, assign.split('_')[0], axis=None)
     print(np.asarray(assigns_trim_target_aux).tolist())
 
