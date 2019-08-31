@@ -47,7 +47,7 @@ def getSubjectsCall(studentId):
 def predict(studentId):
 
     #Before prediction
-    K.clear_session()
+    # K.clear_session()
 
     targetTrim =  request.get_json(force=True)
     print("TARGET:",targetTrim)
@@ -64,7 +64,7 @@ def predict(studentId):
     print(output, file=sys.stderr)
 
     #After prediction
-    K.clear_session()
+    # K.clear_session()
     return jsonify(output.tolist())
 
 if __name__ == '__main__':

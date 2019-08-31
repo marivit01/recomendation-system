@@ -28,3 +28,10 @@
     justify-content: center;
     text-align: center;
 }
+
+.card-spinner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 330px;
+}

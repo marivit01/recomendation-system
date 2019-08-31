@@ -5,7 +5,8 @@
                 arrow_back
             </i>
         </button> -->
-        <mat-horizontal-stepper class="stepper-box" linear="true" #stepper (selectionChange)="nextStep($event.selectedIndex)">
+        <mat-horizontal-stepper class="stepper-box" linear="true" #stepper
+            (selectionChange)="nextStep($event.selectedIndex)">
             <mat-step [stepControl]="firstFormGroup">
                 <form [formGroup]="firstFormGroup">
                     <ng-template matStepLabel>Ingrese el id del estudiante</ng-template>
@@ -21,7 +22,14 @@
             <mat-step [stepControl]="secondFormGroup">
                 <ng-template matStepLabel>Seleccione las materias a inscribir en el nuevo trimestre
                 </ng-template>
-                <drag-and-drop [id]="studentId" (targetSubjects)="saveSelection($event)"></drag-and-drop>
+                <drag-and-drop [id]="studentId" (targetSubjects)="saveSelection($event)" [loading]="loading" [reset]="resetList"
+                    (loaded)=loaded($event)></drag-and-drop>
+                <ng-container *ngIf="loading">
+                    <div class="card-spinner">
+                        <mat-progress-spinner color="primary" mode="indeterminate">
+                        </mat-progress-spinner>
+                    </div>
+                </ng-container>
                 <div>
                     <button mat-button matStepperPrevious class="med-width">Atrás</button>
                     <button mat-button matStepperNext class="med-width" (click)="nextStep(2)">Siguiente</button>
@@ -30,7 +38,7 @@
             <mat-step>
                 <ng-template matStepLabel>Resultado
                 </ng-template>
-                <div class="result-grid py-2">
+                <div class="result-grid py-2" *ngIf="!loadingPred">
                     <!-- <img class="icon" [src]="success ? '../../../assets/happy.png' : '../../../assets/sad.png'" /> -->
                     <i class="material-icons md-90" [ngClass]="success ? 'md-success' : 'md-danger'">
                         {{ success ? 'check_circle_outline' : 'error_outline'}}
@@ -40,11 +48,21 @@
                     </p>
 
                 </div>
+                <div class="card-spinner" *ngIf="loadingPred">
+                    <mat-progress-spinner color="primary" mode="indeterminate">
+                    </mat-progress-spinner>
+                </div>
                 <div>
                     <button mat-button matStepperPrevious class="med-width">Atrás</button>
-                    <button mat-button (click)="stepper.reset(); reset();" class="med-width">Resetear</button>
+                    <button mat-button (click)="reset(); stepper.reset()" class="med-width">Resetear</button>
                 </div>
             </mat-step>
         </mat-horizontal-stepper>
+        <!-- <mat-card>
+            <mat-card-content *ngIf="loading">
+                <mat-progress-spinner color="blue" mode="indeterminate">
+                </mat-progress-spinner>
+            </mat-card-content>
+        </mat-card> -->
     </mat-card>
 </div>
