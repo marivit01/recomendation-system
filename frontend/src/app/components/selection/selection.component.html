@@ -22,7 +22,7 @@
             <mat-step [stepControl]="secondFormGroup">
                 <ng-template matStepLabel>Seleccione las materias a inscribir en el nuevo trimestre
                 </ng-template>
-                <drag-and-drop [id]="studentId" (targetSubjects)="saveSelection($event)" [loading]="loading"
+                <drag-and-drop [id]="studentId" (targetSubjects)="saveSelection($event)" [loading]="loading" [reset]="resetList"
                     (loaded)=loaded($event)></drag-and-drop>
                 <ng-container *ngIf="loading">
                     <div class="card-spinner">
@@ -54,7 +54,7 @@
                 </div>
                 <div>
                     <button mat-button matStepperPrevious class="med-width">Atrás</button>
-                    <button mat-button (click)="stepper.reset(); reset();" class="med-width">Resetear</button>
+                    <button mat-button (click)="reset(); stepper.reset()" class="med-width">Resetear</button>
                 </div>
             </mat-step>
         </mat-horizontal-stepper>

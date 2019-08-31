@@ -10,6 +10,7 @@ import { ApiService } from 'src/app/services/api.service';
 export class DragAndDropComponent implements OnInit, OnChanges {
   @Input() id: string;
   @Input() loading;
+  @Input() reset = false;
   @Output() targetSubjects = new EventEmitter<string[]>();
   @Output() loaded = new EventEmitter<boolean>();
 
@@ -57,8 +58,11 @@ export class DragAndDropComponent implements OnInit, OnChanges {
   ngOnChanges(changes) {
     console.log(changes);
     if (this.id) {
-      // Se llama la funcion para obtener las materias disponibles por id del estudiante, y guardarla en allSignatures
+      // Se llama la funcion para obtener las materias disponibles por id del estudiante, y guardarla en allSubjects
       this.getAvailableSubjects(this.id);
+    }
+    if (this.reset) {
+      this.studentSubjects = [];
     }
   }
 

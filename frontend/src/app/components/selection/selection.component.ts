@@ -16,6 +16,7 @@ export class SelectionComponent implements OnInit {
   studentId: any;
   loading = false;
   loadingPred: boolean;
+  resetList = false;
 
   constructor(private apiService: ApiService, private formBuilder: FormBuilder, private location: Location) { }
 
@@ -80,6 +81,7 @@ export class SelectionComponent implements OnInit {
 
   reset() {
     this.secondFormGroup.reset();
+    this.resetList = true;
   }
 
 }
