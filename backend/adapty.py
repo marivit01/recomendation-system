@@ -46,6 +46,9 @@ def adaptYModel3(assigns_trim_target):
     ,'FPTSP11','FPTSP04','FPTSP02','FPTSP23','FPTSP19','FPTSP07'
     ,'FPTSP25','FPTSP21']
 
+    all_assigns.sort()
+    print("sorted", all_assigns)
+
     print('LEEEEEEEEEENGTH', all_assigns.__len__())
 
     only_assigns = {}
@@ -54,8 +57,9 @@ def adaptYModel3(assigns_trim_target):
       
     for assign in assigns_trim_target:
       print(assign)
-      only_assigns[assign] = 1
+      only_assigns[assign] = 1 
       
     array_target.append(np.array( tuple(only_assigns.values()) ))
     print('SHAAAAAAAPE', np.asarray(array_target).shape)
+    print(np.asarray(array_target))
     return np.asarray(array_target)
