@@ -20,9 +20,11 @@ import os.path
 
 import sys
 
-from adaptx import adaptX
+from adaptx import adaptX # For model 2
+from adaptx import adaptXModel3 # For model 3
 from getAssigns import getAvailableSubjects
-from adapty import adapty
+from adapty import adapty # For model 2
+from adapty import adaptYModel3 # For model 3
 
 # declare constants
 HOST = '0.0.0.0'
@@ -32,7 +34,7 @@ PORT = 8081
 app = Flask(__name__) 
 api = Api(app)
 
-CORS(app)
+CORS(app, support_credentials=True)
 
 @app.route("/")
 def hello():
@@ -43,11 +45,11 @@ def hello():
 def getSubjectsCall(studentId):
     return jsonify(getAvailableSubjects(studentId)) 
 
-@app.route('/api/predict/<studentId>',methods=['POST']) #http://localhost:8081/api/predict
-def predict(studentId):
+@app.route('/api/predict-model-2/<studentId>',methods=['POST']) #http://localhost:8081/api/predict
+def predictModel2(studentId):
 
     #Before prediction
-    # K.clear_session()
+    K.clear_session()
 
     targetTrim =  request.get_json(force=True)
     print("TARGET:",targetTrim)
@@ -64,7 +66,31 @@ def predict(studentId):
     print(output, file=sys.stderr)
 
     #After prediction
-    # K.clear_session()
+    K.clear_session()
+    return jsonify(output.tolist())
+
+@app.route('/api/predict-model-3/<studentId>',methods=['POST']) #http://localhost:8081/api/predict
+def predictModel3(studentId):
+
+    #Before prediction
+    K.clear_session()
+
+    targetTrim = request.get_json(force=True) #subjects.split(',')
+    print("TARGET:",targetTrim)
+    array_target_test = adaptYModel3(targetTrim)
+    array_data_test = adaptXModel3(studentId)
+    print("DATA X:", array_data_test)
+
+    print("array", array_data_test.shape, array_target_test.shape, file=sys.stderr)
+
+    modelPath = os.path.abspath('..\\datos\modelos\\model3.pkl')
+    model = joblib.load(open(modelPath,'rb'))
+
+    output = model.predict([array_data_test, array_target_test])
+    print(output, file=sys.stderr)
+
+    #After prediction
+    K.clear_session()
     return jsonify(output.tolist())
 
 if __name__ == '__main__':
