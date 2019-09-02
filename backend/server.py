@@ -59,7 +59,7 @@ def predictModel2(studentId):
 
     print("array", array_data_test.shape, array_target_test.shape, file=sys.stderr)
 
-    modelPath = os.path.abspath('..\\datos\modelos\\model2.pkl')
+    modelPath = os.path.abspath('..\\datos\ordenados\\model2.pkl')
     model = joblib.load(open(modelPath,'rb'))
 
     output = model.predict([array_data_test, array_target_test])
