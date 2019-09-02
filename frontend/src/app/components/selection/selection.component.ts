@@ -75,6 +75,9 @@ export class SelectionComponent implements OnInit {
         this.success = false;
       }
       this.loadingPred = false;
+      this.apiService.predictIndice(this.studentId, targetQuarter).then(res2 => {
+        console.log('Respuesta modelo indice:', res2);
+      });
     });
     // }).finally(() => { console.log("final"); });
   }
