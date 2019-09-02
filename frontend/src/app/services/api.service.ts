@@ -14,7 +14,7 @@ export class ApiService {
 
   public predictStudentPerformance(id, target): Promise<any> {
     return new Promise<any>((resolve, reject) => {
-      this.http.post(`${this.API_URL}predict-model-3/${id}`, target).toPromise().then(res => {
+      this.http.post(`${this.API_URL}predict-model-2/${id}`, target).toPromise().then(res => {
         console.log('get result', res);
         resolve(res);
       }).catch(err => {
