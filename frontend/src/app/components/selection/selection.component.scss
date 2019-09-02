@@ -1,8 +1,9 @@
 .stepper-box {
-    min-height: 330px;
+    min-height: 630px;
     height: auto;
     min-width: 70vw;
     padding: 20px;
+    background-color: rgba(255, 255, 255, 0.8);
 }
 
 .full-width {
@@ -14,7 +15,8 @@
 }
 
 .card {
-    margin: 40px;
+    /* margin: 40px; */
+    background-color: rgba(255, 255, 255, 0);
 }
 
 .mat-horizontal-content-container {
@@ -34,4 +36,15 @@
     justify-content: center;
     align-items: center;
     min-height: 330px;
+}
+
+.full-height {
+    min-height: 450px;
+    display: flex;
+    flex-flow: column;
+
+    &.mod {
+        min-height: 530px;
+        justify-content: space-between;
+    }
 }

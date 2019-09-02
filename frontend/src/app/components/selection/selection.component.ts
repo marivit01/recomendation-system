@@ -6,7 +6,7 @@ import { ApiService } from 'src/app/services/api.service';
 @Component({
   selector: 'app-selection',
   templateUrl: './selection.component.html',
-  styleUrls: ['./selection.component.css']
+  styleUrls: ['./selection.component.scss']
 })
 export class SelectionComponent implements OnInit {
   firstFormGroup: FormGroup;

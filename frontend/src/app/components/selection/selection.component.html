@@ -8,7 +8,7 @@
         <mat-horizontal-stepper class="stepper-box" linear="true" #stepper
             (selectionChange)="nextStep($event.selectedIndex)">
             <mat-step [stepControl]="firstFormGroup">
-                <form [formGroup]="firstFormGroup">
+                <form [formGroup]="firstFormGroup" class="full-height mod">
                     <ng-template matStepLabel>Ingrese el id del estudiante</ng-template>
                     <mat-form-field class="full-width py-3">
                         <input matInput placeholder="Identificador" formControlName="id" required>
@@ -25,7 +25,7 @@
                 <drag-and-drop [id]="studentId" (targetSubjects)="saveSelection($event)" [loading]="loading" [reset]="resetList"
                     (loaded)=loaded($event)></drag-and-drop>
                 <ng-container *ngIf="loading">
-                    <div class="card-spinner">
+                    <div class="card-spinner full-height">
                         <mat-progress-spinner color="primary" mode="indeterminate">
                         </mat-progress-spinner>
                     </div>
@@ -38,7 +38,7 @@
             <mat-step>
                 <ng-template matStepLabel>Resultado
                 </ng-template>
-                <div class="result-grid py-2" *ngIf="!loadingPred">
+                <div class="result-grid py-2 full-height" *ngIf="!loadingPred">
                     <!-- <img class="icon" [src]="success ? '../../../assets/happy.png' : '../../../assets/sad.png'" /> -->
                     <i class="material-icons md-90" [ngClass]="success ? 'md-success' : 'md-danger'">
                         {{ success ? 'check_circle_outline' : 'error_outline'}}
