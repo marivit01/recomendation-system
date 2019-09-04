@@ -18,6 +18,8 @@ def adapty(assigns_trim_target):
     ,'FPTSP11','FPTSP04','FPTSP02','BPTDI01-2','FPTSP23','FPTSP19','FPTSP07'
     ,'FPTSP25','FPTSP21','FPTIS01']
 
+    all_assigns.sort()
+
     print('LEEEEEEEEEENGTH', all_assigns.__len__())
 
     only_assigns = {}
