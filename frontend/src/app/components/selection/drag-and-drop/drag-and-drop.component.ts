@@ -57,7 +57,7 @@ export class DragAndDropComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes) {
     console.log(changes);
-    if (this.id) {
+    if (changes.id) {
       // Se llama la funcion para obtener las materias disponibles por id del estudiante, y guardarla en allSubjects
       this.getAvailableSubjects(this.id);
     }

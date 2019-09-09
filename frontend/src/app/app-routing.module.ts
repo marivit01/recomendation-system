@@ -16,9 +16,9 @@ const routes: Routes = [
     ]
   },
   {
-    path: 'selection',
+    path: 'prediction',
     children: [
-      { path: '', component: SelectionComponent },
+      { path: ':selection', component: SelectionComponent },
     ]
   },
 ];

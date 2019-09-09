@@ -48,4 +48,16 @@ export class ApiService {
     });
   }
 
+  public predictStudentPerformanceByAssigns(id, target): Promise<any> {
+    return new Promise<any>((resolve, reject) => {
+      this.http.post(`${this.API_URL}predict-model-4/${id}`, target).toPromise().then(res => {
+        console.log('get result', res);
+        resolve(res);
+      }).catch(err => {
+        console.error( 'Error: Unable to complete request.', err);
+        reject();
+      });
+    });
+  }
+
 }

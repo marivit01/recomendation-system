@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { Location } from '@angular/common';
 import { ApiService } from 'src/app/services/api.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-selection',
@@ -17,11 +18,19 @@ export class SelectionComponent implements OnInit {
   loading = false;
   loadingPred: boolean;
   resetList = false;
+  predictionOption: string;
 
-  constructor(private apiService: ApiService, private formBuilder: FormBuilder, private location: Location) { }
+  constructor(private apiService: ApiService,
+    private formBuilder: FormBuilder,
+    private location: Location,
+    private route: ActivatedRoute) { }
 
   ngOnInit() {
-    this.createForms();
+    this.route.params.subscribe(param => {
+      this.predictionOption = param.selection;
+      console.log(this.predictionOption);
+      this.createForms();
+    });
   }
 
   createForms() {
@@ -34,6 +43,7 @@ export class SelectionComponent implements OnInit {
   }
 
   nextStep(step) {
+    console.log(step);
     switch (step) {
       case 1:
         this.loading = true;
@@ -65,21 +75,40 @@ export class SelectionComponent implements OnInit {
 
   predict() {
     const targetQuarter = this.secondFormGroup.value.targetSubjects;
-    this.apiService.predictStudentPerformance(this.studentId, targetQuarter).then(res => {
-      console.log('res', res);
-      this.predictionResult = res[0][0];
-      console.log(this.predictionResult);
-      if (this.predictionResult >= 0.5) {
-        this.success = true;
-      } else {
-        this.success = false;
+    switch (this.predictionOption) {
+      case 'global': {
+        console.log('entro en global');
+        this.apiService.predictStudentPerformance(this.studentId, targetQuarter).then(res => {
+          console.log('res', res);
+          this.predictionResult = res[0][0];
+          console.log(this.predictionResult);
+          if (this.predictionResult >= 0.5) {
+            this.success = true;
+          } else {
+            this.success = false;
+          }
+          this.loadingPred = false;
+          this.apiService.predictIndice(this.studentId, targetQuarter).then(res2 => {
+            console.log('Respuesta modelo indice:', res2);
+          });
+        });
+        break;
       }
-      this.loadingPred = false;
-      this.apiService.predictIndice(this.studentId, targetQuarter).then(res2 => {
-        console.log('Respuesta modelo indice:', res2);
-      });
-    });
-    // }).finally(() => { console.log("final"); });
+      case 'custom': {
+        console.log('entro en custom');
+        this.apiService.predictStudentPerformanceByAssigns(this.studentId, targetQuarter).then(res => {
+          console.log('res', res);
+          this.predictionResult = res[0][0];
+          console.log(this.predictionResult);
+          if (this.predictionResult >= 0.5) {
+            this.success = true;
+          } else {
+            this.success = false;
+          }
+          this.loadingPred = false;
+        });
+      }
+    }
   }
 
   reset() {

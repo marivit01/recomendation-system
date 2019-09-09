@@ -20,11 +20,9 @@ import os.path
 
 import sys
 
-from adaptx import adaptX # For model 2
-from adaptx import adaptXModel3 # For model 3
+from adaptx import adaptX, adaptXModel3 # For model 2 an 3
 from getAssigns import getAvailableSubjects
-from adapty import adapty # For model 2
-from adapty import adaptYModel3 # For model 3
+from adapty import adapty, adaptYModel3, adaptYModel4 # For model 2, 3 and 4
 
 # declare constants
 HOST = '0.0.0.0'
@@ -84,6 +82,33 @@ def predictModel3(studentId):
     print("array", array_data_test.shape, array_target_test.shape, file=sys.stderr)
 
     modelPath = os.path.abspath('..\\datos\modelos\\model3.pkl')
+    model = joblib.load(open(modelPath,'rb'))
+
+    output = model.predict([array_data_test, array_target_test])
+    print(output, file=sys.stderr)
+
+    #After prediction
+    K.clear_session()
+    return jsonify(output.tolist())
+
+@app.route('/api/predict-model-4/<studentId>',methods=['POST'])
+def predictModel4(studentId):
+
+    #Before prediction
+    K.clear_session()
+
+    targetTrim =  request.get_json(force=True)
+    print("TARGET:", targetTrim)
+
+    array_target_test = adaptYModel4(targetTrim)
+    print("DATA Y:", array_target_test)
+
+    array_data_test = adaptX(studentId)
+    print("DATA X:", array_data_test)
+
+    print("shapes:", array_data_test.shape, array_target_test.shape, file=sys.stderr)
+
+    modelPath = os.path.abspath('..\\datos\modelos\\model4.pkl')
     model = joblib.load(open(modelPath,'rb'))
 
     output = model.predict([array_data_test, array_target_test])
