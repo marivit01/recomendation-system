@@ -43,7 +43,7 @@
                     <i class="material-icons md-90" [ngClass]="success ? 'md-success' : 'md-danger'">
                         {{ success ? 'check_circle_outline' : 'error_outline'}}
                     </i>
-                    <p>Probabilidad Obtenida: {{ predictionResult }}</p>
+                    <p>Probabilidad Obtenida: {{ predictionResult | percent: '.2'}}</p>
                     <p> {{ success ? 'El estudiante aprobará todas las materias ingresadas' : 'El estudiante no aprobará todas las materias ingresadas'}}
                     </p>
 
