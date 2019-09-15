@@ -68,7 +68,7 @@ def adaptYModel3(assigns_trim_target):
 
 def adaptYModel4(assigns_trim_target):
   array_target = []
-  max_number_assigns = 7
+  max_number_assigns = 10
 
   all_assigns = ['FBTCE03','FBTMM00','FBTHU01','FBTIE02','BPTQI21','BPTMI04','FBPIN01'
   ,'BPTPI07','FBPLI02','FBTIN04','FGE0000','FBPCE04','FBPMM02','FBTIN05'
@@ -97,6 +97,11 @@ def adaptYModel4(assigns_trim_target):
 
   # Variable para determinar donde empiezan a llenarse con materias target
   start_assign = max_number_assigns - cant_assigns
+
+  # Verificación de que el array de materias target esté ordenado alfabéticamente
+  print('Y original:', assigns_trim_target)
+  assigns_trim_target.sort()
+  print('Y ordenado:', assigns_trim_target)
 
   for idx, assign in enumerate(assigns_trim_target):
     # Arma el array_target
