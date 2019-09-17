@@ -30,7 +30,7 @@ def getAvailableSubjects(studentId):
     #NUEVO
     seenSubjects = np.asarray(assigns_trim_target_aux)
     path = os.path.abspath('..\\datos\\subjectNames.csv')
-    subjectNames = pd.read_csv(path)
+    subjectNames = pd.read_csv(path).sort_values('asignatura')
 
     # Se obtienen las materias que el estudiante no ha visto
     mask = subjectNames['asignatura'].isin(seenSubjects)
@@ -46,7 +46,16 @@ def getSubjectsNames(availablesArray):
     subjectsArray = []
     for idx,subject in availablesArray.iterrows():
         print(subject.values)
-        tmp = {'code':subject.values[1], 'name':subject.values[2]}
+        tmp = {'code':subject.values[1], 'name':subject.values[2]} #'disabled':false}
         subjectsArray.append(tmp)
     print(subjectsArray)
     return subjectsArray
+
+# Función que recibe un array de las materias que un estudiante no ha visto, 
+# y che
+# def getPrelaciones(assignCode, availablesArray):
+#     # Rama de ingles
+#     if(assignCode == 'FBTIN04' AND availablesArray.):
+
+
+# def removeUnnecessary(availablesArray):

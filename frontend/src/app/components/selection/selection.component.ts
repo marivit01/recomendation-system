@@ -98,10 +98,11 @@ export class SelectionComponent implements OnInit {
       }
       case 'custom': {
         console.log('entro en custom');
-        this.apiService.predictStudentPerformanceByAssigns(this.studentId, targetQuarter).then(res => {
+        // this.apiService.predictStudentPerformanceByAssigns(this.studentId, targetQuarter).then(res => {
+        this.apiService.predictPerformanceModel4_V1(this.studentId, targetQuarter).then(res => {
           console.log('res', res);
           this.predictionResult = res[0][0];
-          console.log(this.predictionResult);
+          // console.log(this.predictionResult);
           if (this.predictionResult >= 0.5) {
             this.success = true;
           } else {

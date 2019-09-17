@@ -22,7 +22,7 @@ import sys
 
 from adaptx import adaptX, adaptXModel3 # For model 2 an 3
 from getAssigns import getAvailableSubjects
-from adapty import adapty, adaptYModel3, adaptYModel4 # For model 2, 3 and 4
+from adapty import adapty, adaptYModel3, adaptYModel4, adaptYModel4_V1 # For model 2, 3 and 4
 
 # declare constants
 HOST = '0.0.0.0'
@@ -113,6 +113,31 @@ def predictModel4(studentId):
 
     output = model.predict([array_data_test, array_target_test])
     print(output, file=sys.stderr)
+
+    #After prediction
+    K.clear_session()
+    return jsonify(output.tolist())
+
+@app.route('/api/predict-model-4-V1/<studentId>',methods=['POST'])
+def predictModel4_V1(studentId):
+
+    #Before prediction
+    K.clear_session()
+
+    targetTrim =  request.get_json(force=True)
+    print("TARGET:", targetTrim)
+
+    array_data_test = adaptX(studentId)
+    print("DATA X:", array_data_test)
+    array_historial, array_materias, array_contextos = adaptYModel4_V1(targetTrim, array_data_test)
+
+    print("shapes:", array_historial.shape, array_materias.shape, array_contextos.shape, file=sys.stderr)
+
+    modelPath = os.path.abspath('..\\datos\modelos\\model4_materia.pkl')
+    model = joblib.load(open(modelPath,'rb'))
+
+    output = model.predict([array_historial, array_materias, array_contextos])
+    print('outputt:', output, file=sys.stderr)
 
     #After prediction
     K.clear_session()
