@@ -108,7 +108,7 @@ def predictModel4(studentId):
 
     print("shapes:", array_data_test.shape, array_target_test.shape, file=sys.stderr)
 
-    modelPath = os.path.abspath('..\\datos\modelos\\model4_concat_mask.pkl')
+    modelPath = os.path.abspath('..\\datos\modelos\\model4_v2.pkl')
     model = joblib.load(open(modelPath,'rb'))
 
     output = model.predict([array_data_test, array_target_test])
