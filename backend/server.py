@@ -133,7 +133,7 @@ def predictModel4_V1(studentId):
 
     print("shapes:", array_historial.shape, array_materias.shape, array_contextos.shape, file=sys.stderr)
 
-    modelPath = os.path.abspath('..\\datos\modelos\\model4_materia.pkl')
+    modelPath = os.path.abspath('..\\datos\modelos\\model4_materia_with_dense.pkl')
     model = joblib.load(open(modelPath,'rb'))
 
     output = model.predict([array_historial, array_materias, array_contextos])
