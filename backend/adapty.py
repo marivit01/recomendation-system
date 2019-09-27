@@ -206,8 +206,10 @@ def getContextAndTarget(array_target, array_data):
   return np.asarray(new_array_historial), np.asarray(new_array_target_mat), np.asarray(new_array_target_context)
 
 
-def adaptYModel5(assigns_trim_target):
+def adaptYModel5(assigns_trim_target, array_data):
   array_target = []
+  new_array_data = []
+  max_number_trim = len(assigns_trim_target)
 
   all_assigns = ['FBTCE03','FBTMM00','FBTHU01','FBTIE02','BPTQI21','BPTMI04','FBPIN01'
   ,'BPTPI07','FBPLI02','FBTIN04','FGE0000','FBPCE04','FBPMM02','FBTIN05'
@@ -224,15 +226,29 @@ def adaptYModel5(assigns_trim_target):
 
   print('LEEEEEEEEEENGTH', all_assigns.__len__())
 
-  only_assigns = {}
-  for assign_zero in all_assigns:
-    only_assigns[assign_zero] = 0
-    
-  for assign in assigns_trim_target:
-    print(assign)
-    only_assigns[assign] = 1
-    
-  array_target.append(np.array( tuple(only_assigns.values()) ))
+  # Rellenar todos los espacios de materias target en 0 
+  row_assigns = []
+  output_assigns = []
+  
+  # Se llena el array con 66 ceros la cantidad de veces del numero de combinaciones
+  for num_empty in range(max_number_trim):
+    row_assigns.append(np.zeros((66), dtype=int))
+    output_assigns.append(0)
+
+    # Se itera sobre cada posible trimestre
+    for idx, trim in enumerate(assigns_trim_target):
+      # Se llena la fila que va dentro de cada fila de row_assigns
+      only_assigns = {}
+      for assign_zero in all_assigns:
+        only_assigns[assign_zero] = 0
+        
+      
+      for assign in trim:
+        print(assign)
+        only_assigns[assign] = 1
+      
+      array_target.append(np.array( tuple(only_assigns.values()) ))
+      new_array_data.append(array_data[0])
   print('SHAAAAAAAPE', np.asarray(array_target).shape)
   return np.asarray(array_target)
 

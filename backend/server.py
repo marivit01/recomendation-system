@@ -53,7 +53,7 @@ def predictModel2(studentId):
     print("TARGET:",targetTrim)
     array_target_test = adapty(targetTrim)
     array_data_test = adaptX(studentId)
-    print("DATA X:", array_data_test)
+    print("DATA X:", array_data_test, len(array_data_test))
 
     print("array", array_data_test.shape, array_target_test.shape, file=sys.stderr)
 
@@ -77,7 +77,8 @@ def predictModel3(studentId):
     print("TARGET:",targetTrim)
     array_target_test = adaptYModel3(targetTrim)
     array_data_test = adaptXModel3(studentId)
-    print("DATA X:", array_data_test)
+    print("DATA X:", array_data_test, array_data_test.shape)
+    # print("DATA X:", array_data_test)
 
     print("array", array_data_test.shape, array_target_test.shape, file=sys.stderr)
 
@@ -151,9 +152,9 @@ def predictModel5(studentId):
 
     targetTrim =  request.get_json(force=True)
     print("TARGET:",targetTrim)
-    array_target_test = adaptYModel5(targetTrim)
     array_data_test = adaptX(studentId)
     print("DATA X:", array_data_test)
+    array_target_test, array_data_test = adaptYModel5(targetTrim, array_data_test)
 
     print("array", array_data_test.shape, array_target_test.shape, file=sys.stderr)
 
