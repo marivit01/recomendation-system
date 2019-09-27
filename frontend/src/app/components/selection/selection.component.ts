@@ -110,6 +110,21 @@ export class SelectionComponent implements OnInit {
           }
           this.loadingPred = false;
         });
+        break;
+      }
+      case 'probatorio': {
+        console.log('entro en custom');
+        this.apiService.predictPerformanceModel5(this.studentId, targetQuarter).then(res => {
+          console.log('res', res);
+          this.predictionResult = res[0][0];
+          // console.log(this.predictionResult);
+          if (this.predictionResult >= 0.5) {
+            this.success = true;
+          } else {
+            this.success = false;
+          }
+          this.loadingPred = false;
+        });
       }
     }
   }

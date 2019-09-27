@@ -155,10 +155,11 @@ def predictModel5(studentId):
     array_data_test = adaptX(studentId)
     print("DATA X:", array_data_test)
     array_target_test, array_data_test = adaptYModel5(targetTrim, array_data_test)
-
     print("array", array_data_test.shape, array_target_test.shape, file=sys.stderr)
 
-    modelPath = os.path.abspath('..\\datos\model5.pkl')
+    print("target result:", array_target_test, file=sys.stderr)
+
+    modelPath = os.path.abspath('..\\datos\modelos\model-5\\model5.pkl')
     model = joblib.load(open(modelPath,'rb'))
 
     output = model.predict([array_data_test, array_target_test])

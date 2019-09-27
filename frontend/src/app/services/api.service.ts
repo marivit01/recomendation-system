@@ -72,4 +72,18 @@ export class ApiService {
     });
   }
 
+  public predictPerformanceModel5(id, target): Promise<any> {
+    return new Promise<any>((resolve, reject) => {
+      const quarters = [target, target];
+      console.log('quarters', quarters);
+      this.http.post(`${this.API_URL}predict-model-5/${id}`, quarters).toPromise().then(res => {
+        console.log('get result', res);
+        resolve(res);
+      }).catch(err => {
+        console.error( 'Error: Unable to complete request.', err);
+        reject();
+      });
+    });
+  }
+
 }
