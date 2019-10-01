@@ -38,19 +38,71 @@ def getAvailableSubjects(studentId):
     availableSubjects = subjectNames[~mask]
 
     # Se llama a la función para transformar las materias disponibles en un array con {code, name}
-    availableSubjectsFormatted = getSubjectsNames(availableSubjects)
+    total_credits, bp_credits = getCredits(seenSubjects)
+    availableSubjectsFormatted = getSubjectsNames(availableSubjects, total_credits, bp_credits)
     return availableSubjectsFormatted
 
 # Función que recibe un array de las materias que un estudiante no ha visto, 
 # y lo devuelve en formato code, name para pasarlo al manejador
-def getSubjectsNames(availablesArray):
+def getSubjectsNames(availablesArray, total_credits, bp_credits):
     subjectsArray = []
-    for idx,subject in availablesArray.iterrows():
-        print(subject.values)
-        tmp = {'code':subject.values[1], 'name':subject.values[2]} #'disabled':false}
+    for idx, subject in availablesArray.iterrows():
+        print("valores", subject.values, subject.values[5], subject.values[6])
+        subject_disabled = False
+
+        if (isinstance(subject.values[8], str)):
+            print("las vio", availablesArray['asignatura'].isin(subject.values[8].split(' ')))
+            if (availablesArray['asignatura'].isin(subject.values[8].split(' ')).any() == False): 
+                    print("vio alguna de las siguientes de estas")
+                    subject_disabled = True
+
+        if (isinstance(subject.values[3], str)):
+            # print("split", availablesArray, subject.values[3].split(' '),availablesArray['asignatura'].isin(subject.values[3].split(' ')).any())
+            if (np.isnan(subject.values[6]) == False):
+                print("creditos bp")
+                # Determina si el estudiante no ha visto la materia ni ha cumplido con los creditos bp si aplica
+                if (availablesArray['asignatura'].isin(subject.values[3].split(' ')).any() and subject.values[6] > bp_credits):
+                    print("no cumple con los creditos BP ni las asignaturas")
+                    subject_disabled = True
+            else:
+            	# Determina si no ha visto alguna de las materias preladas para ponerle el disable true
+                if (availablesArray['asignatura'].isin(subject.values[3].split(' ')).any()): 
+                    print("no ha visto las prelatorias")
+                    subject_disabled = True
+
+        # Determina si el estudiante cumple con los requisitos de creditos si los tiene
+        if (np.isnan(subject.values[5]) == False):
+            print("hay creditos")
+            if (np.isnan(subject.values[6]) == False):
+                if (subject.values[5] > total_credits and subject.values[6] > bp_credits):
+                    print("no cumple con los creditos ni bp ni normales")
+                    subject_disabled = True
+            else:
+                if (subject.values[5] > total_credits):
+                    print("no cumple con los creditos")
+                    subject_disabled = True
+
+        tmp = {'code':subject.values[1], 'name':subject.values[2], 'disabled': subject_disabled}
+        # print("tmp", tmp)
         subjectsArray.append(tmp)
     print(subjectsArray)
     return subjectsArray
+
+def getCredits(seenSubjects):
+    total_credits = 0
+    bp_credits = 0
+    print("seen subjects", seenSubjects)
+    for subject in seenSubjects:
+        print("subject seen", subject)
+        total_credits += 1
+        if (subject.find('BP') == 0):
+            print("bp is here")
+            bp_credits += 1
+
+    total_credits *= 3 
+    bp_credits *= 3
+    print("credits", total_credits, bp_credits)
+    return (total_credits, bp_credits)
 
 # Función que recibe un array de las materias que un estudiante no ha visto, 
 # y che
