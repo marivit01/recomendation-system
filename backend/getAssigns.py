@@ -17,16 +17,16 @@ def getAvailableSubjects(studentId):
 
     assigns_trim_target_aux = []
     for assign in assigns_trim_target:
-        print(assign.split('_')[0])
+        # print(assign.split('_')[0])
         # Validacion para no incluir la materia en el array de materias vistas si el estudiante no la ha pasado (reprobado o retirado)
         if (assign.split('_')[1] == "Reprobo" or assign.split('_')[1] == "R"):
-            print("aqui paso algo",assign.split('_')[1])
+            # print("aqui paso algo",assign.split('_')[1])
             continue
         # Validacion para no incluir como vista la materia Electiva, para que el estudiante pueda elegirla siempre como opcion
         if (assign.split('_')[0] == "FGE0000"):
             continue
         assigns_trim_target_aux = np.append(assigns_trim_target_aux, assign.split('_')[0], axis=None)
-    print(np.asarray(assigns_trim_target_aux).tolist())
+    print("materias que vio", np.asarray(assigns_trim_target_aux).tolist())
 
     #NUEVO
     seenSubjects = np.asarray(assigns_trim_target_aux)
@@ -47,61 +47,56 @@ def getAvailableSubjects(studentId):
 def getSubjectsNames(availablesArray, total_credits, bp_credits):
     subjectsArray = []
     for idx, subject in availablesArray.iterrows():
-        print("valores", subject.values, subject.values[5], subject.values[6])
+        # print("valores", subject.values, subject.values[5], subject.values[6])
         subject_disabled = False
 
         if (isinstance(subject.values[8], str)):
-            print("las vio", availablesArray['asignatura'].isin(subject.values[8].split(' ')))
+            # Asignaturas que no vio porque empezó en una lista que no las requiere o no hacen falta ver
             if (availablesArray['asignatura'].isin(subject.values[8].split(' ')).any() == False): 
-                    print("vio alguna de las siguientes de estas")
+                    # print("vio alguna de las siguientes de estas")
                     subject_disabled = True
 
         if (isinstance(subject.values[3], str)):
             # print("split", availablesArray, subject.values[3].split(' '),availablesArray['asignatura'].isin(subject.values[3].split(' ')).any())
             if (np.isnan(subject.values[6]) == False):
-                print("creditos bp")
                 # Determina si el estudiante no ha visto la materia ni ha cumplido con los creditos bp si aplica
                 if (availablesArray['asignatura'].isin(subject.values[3].split(' ')).any() and subject.values[6] > bp_credits):
-                    print("no cumple con los creditos BP ni las asignaturas")
+                    # print("no cumple con los creditos BP ni las asignaturas")
                     subject_disabled = True
             else:
             	# Determina si no ha visto alguna de las materias preladas para ponerle el disable true
                 if (availablesArray['asignatura'].isin(subject.values[3].split(' ')).any()): 
-                    print("no ha visto las prelatorias")
+                    # print("no ha visto las prelatorias")
                     subject_disabled = True
 
         # Determina si el estudiante cumple con los requisitos de creditos si los tiene
         if (np.isnan(subject.values[5]) == False):
-            print("hay creditos")
             if (np.isnan(subject.values[6]) == False):
                 if (subject.values[5] > total_credits and subject.values[6] > bp_credits):
-                    print("no cumple con los creditos ni bp ni normales")
+                    # print("no cumple con los creditos ni bp ni normales")
                     subject_disabled = True
             else:
                 if (subject.values[5] > total_credits):
-                    print("no cumple con los creditos")
+                    # print("no cumple con los creditos")
                     subject_disabled = True
 
         tmp = {'code':subject.values[1], 'name':subject.values[2], 'disabled': subject_disabled}
-        # print("tmp", tmp)
         subjectsArray.append(tmp)
-    print(subjectsArray)
     return subjectsArray
 
 def getCredits(seenSubjects):
     total_credits = 0
     bp_credits = 0
-    print("seen subjects", seenSubjects)
+    # print("seen subjects", seenSubjects)
     for subject in seenSubjects:
-        print("subject seen", subject)
+        # print("subject seen", subject)
         total_credits += 1
         if (subject.find('BP') == 0):
-            print("bp is here")
             bp_credits += 1
 
     total_credits *= 3 
     bp_credits *= 3
-    print("credits", total_credits, bp_credits)
+    # print("credits", total_credits, bp_credits)
     return (total_credits, bp_credits)
 
 # Función que recibe un array de las materias que un estudiante no ha visto, 
