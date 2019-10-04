@@ -36,11 +36,11 @@ export class ApiService {
     });
   }
 
-  public getAvailableSubjects(studentId): Promise<any> {
-    return new Promise<any>((resolve, reject) => {
+  public getAvailableSubjects(studentId): Promise<{code: string, name: string, disabled: boolean}[]> {
+    return new Promise<{code: string, name: string, disabled: boolean}[]>((resolve, reject) => {
       this.http.post(`${this.API_URL}getSubjects/${studentId}`, '').toPromise().then(res => {
         console.log(res);
-        resolve(res);
+        resolve(res as {code: string, name: string, disabled: boolean}[]);
       }).catch(err => {
         console.error( 'Error: Unable to complete request.', err);
         reject();

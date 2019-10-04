@@ -153,13 +153,13 @@ def predictModel5(studentId):
     targetTrim =  request.get_json(force=True)
     print("TARGET:",targetTrim)
     array_data_test = adaptX(studentId)
-    print("DATA X:", array_data_test)
+    print("DATA X:", array_data_test[0][0], array_data_test[0][29], array_data_test.shape)
     array_target_test, array_data_test = adaptYModel5(targetTrim, array_data_test)
     print("array", array_data_test.shape, array_target_test.shape, file=sys.stderr)
 
     print("target result:", array_target_test, file=sys.stderr)
 
-    modelPath = os.path.abspath('..\\datos\modelos\\model2_5.pkl')
+    modelPath = os.path.abspath('..\\datos\modelos\\model-5\\model5_nuevo.pkl')
     model = joblib.load(open(modelPath,'rb'))
 
     output = model.predict([array_data_test, array_target_test])

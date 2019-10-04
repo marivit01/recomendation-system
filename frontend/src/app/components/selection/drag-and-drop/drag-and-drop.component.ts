@@ -69,7 +69,13 @@ export class DragAndDropComponent implements OnInit, OnChanges {
   getAvailableSubjects(id) {
     this.apiService.getAvailableSubjects(id).then(res => {
       console.log('res', res);
-      this.allSubjects = res;
+      this.allSubjects = res.filter(r => {
+        if (!r.disabled) {
+          return r;
+        }
+        return null;
+      });
+      console.log("all subjects", this.allSubjects);
       this.loaded.emit(false);
     });
   }
