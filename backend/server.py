@@ -159,7 +159,7 @@ def predictModel5(studentId):
 
     print("target result:", array_target_test, file=sys.stderr)
 
-    modelPath = os.path.abspath('..\\datos\modelos\\model-5\\model5_nuevo.pkl')
+    modelPath = os.path.abspath('..\\datos\modelos\\model-5\\model5-2-test-split.pkl')
     model = joblib.load(open(modelPath,'rb'))
 
     output = model.predict([array_data_test, array_target_test])
@@ -175,3 +175,11 @@ if __name__ == '__main__':
     app.run(host=HOST,
             debug=True,  # automatic reloading enabled
             port=PORT)
+
+
+
+#Modelo 5 testeo con split
+# TEST DATA: [array([10073820]) array([10060042]) array([10069092]) array([10085809])
+#  array([10063086]) array([10060084]) array([10077788]) array([10079932])
+#  array([10068800]) array([10072873]) array([10081271]) array([10087101])
+#  array([10065486])]
