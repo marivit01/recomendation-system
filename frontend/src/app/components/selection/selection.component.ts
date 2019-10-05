@@ -113,7 +113,7 @@ export class SelectionComponent implements OnInit {
         break;
       }
       case 'probatorio': {
-        console.log('entro en custom');
+        console.log('entro en probatorio');
         this.apiService.predictPerformanceModel5(this.studentId, targetQuarter).then(res => {
           console.log('res', res);
           this.predictionResult = res[0][0];

@@ -16,7 +16,8 @@ export class HomeComponent implements OnInit {
   selectOption(opc: number) {
     switch (opc) {
       case 1:
-      // this.router.navigate(['/selection']);
+        this.router.navigate(['/recomendation']);
+        break;
       case 2:
         this.router.navigate(['/prediction', 'global']);
         break;

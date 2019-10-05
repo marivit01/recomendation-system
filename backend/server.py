@@ -21,7 +21,7 @@ import os.path
 import sys
 
 from adaptx import adaptX, adaptXModel3 # For model 2 an 3
-from getAssigns import getAvailableSubjects
+from getAssigns import getAvailableSubjects, createCombinations
 from adapty import adapty, adaptYModel3, adaptYModel4, adaptYModel4_V1, adaptYModel5 # For model 2, 3 and 4
 
 # declare constants
@@ -43,13 +43,20 @@ def hello():
 def getSubjectsCall(studentId):
     return jsonify(getAvailableSubjects(studentId)) 
 
+# Función que regresa todas las combinaciones de materias posibles para un estudiante especifico
+@app.route('/api/getCombinations/<assignsNumber>',methods=['POST'])
+def getCombinationsCall(assignsNumber):
+    availableSubjects = request.get_json(force=True)
+    return jsonify(createCombinations(availableSubjects, assignsNumber)) 
+
+
 @app.route('/api/predict-model-2/<studentId>',methods=['POST']) #http://localhost:8081/api/predict
 def predictModel2(studentId):
 
     #Before prediction
     K.clear_session()
 
-    targetTrim =  request.get_json(force=True)
+    targetTrim = request.get_json(force=True)
     print("TARGET:",targetTrim)
     array_target_test = adapty(targetTrim)
     array_data_test = adaptX(studentId)

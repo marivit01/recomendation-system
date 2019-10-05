@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { HomeComponent } from './components/home/home.component';
 import { SelectionComponent } from './components/selection/selection.component';
+import { RecomendationComponent } from './components/recomendation/recomendation.component';
 
 const routes: Routes = [
   {
@@ -21,6 +22,12 @@ const routes: Routes = [
       { path: ':selection', component: SelectionComponent },
     ]
   },
+  {
+    path: 'recomendation',
+    children: [
+      { path: '', component: RecomendationComponent },
+    ]
+  }
 ];
 
 @NgModule({
