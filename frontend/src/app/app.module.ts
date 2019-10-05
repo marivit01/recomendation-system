@@ -20,13 +20,15 @@ import { MatInputModule } from '@angular/material/input';
 import {DragDropModule} from '@angular/cdk/drag-drop';
 import { DragAndDropComponent } from './components/selection/drag-and-drop/drag-and-drop.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { RecomendationComponent } from './components/recomendation/recomendation.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     SelectionComponent,
-    DragAndDropComponent
+    DragAndDropComponent,
+    RecomendationComponent
   ],
   imports: [
     BrowserModule,

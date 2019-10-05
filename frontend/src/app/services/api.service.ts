@@ -86,4 +86,19 @@ export class ApiService {
     });
   }
 
+  /** 
+   * Funcion para obtener todas las combinaciones de materias posibles
+   * para posteriormente predecir sus resectivos rendimientos */
+  public getCombinations(availables, assignsNumber?): Promise<any> {
+    return new Promise<any>((resolve, reject) => {
+      this.http.post(`${this.API_URL}getCombinations/${assignsNumber}`, availables).toPromise().then(res => {
+        console.log('get combinaciones: ', res);
+        resolve(res);
+      }).catch(err => {
+        console.error( 'Error: Unable to complete request.', err);
+        reject();
+      });
+    });
+  }
+
 }

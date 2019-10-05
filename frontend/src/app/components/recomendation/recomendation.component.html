@@ -1,0 +1,43 @@
+<div class="container">
+    <mat-card class="card">
+        <mat-horizontal-stepper class="stepper-box" linear="true" #stepper
+            (selectionChange)="nextStep($event.selectedIndex)">
+            <mat-step [stepControl]="dataForm">
+                <form [formGroup]="dataForm" class="full-height mod">
+                    <ng-template matStepLabel>Ingrese el id del estudiante</ng-template>
+                    <mat-form-field class="full-width py-3">
+                        <input matInput placeholder="Identificador" formControlName="id" required (keyup.enter)="nextStep(1)">
+                    </mat-form-field>
+                    <mat-form-field class="full-width py-3">
+                        <input matInput placeholder="Número de asignaturas" formControlName="numberAssigns" (keyup.enter)="nextStep(1)">
+                    </mat-form-field>
+                    <div>
+                        <button mat-button matStepperPrevious (click)="goBack()" class="med-width">Volver al inicio</button>
+                        <button mat-button matStepperNext class="med-width">Siguiente</button>
+                    </div>
+                </form>
+            </mat-step>
+            <mat-step>
+                <ng-template matStepLabel>Resultado
+                </ng-template>
+                <div class="result-grid py-2 full-height" *ngIf="!loadingPred">
+                    <!--<i class="material-icons md-90" [ngClass]="success ? 'md-success' : 'md-danger'">
+                        {{ success ? 'check_circle_outline' : 'error_outline'}}
+                    </i>
+                    <p>Probabilidad Obtenida: {{ predictionResult | percent: '.2'}}</p>
+                    <p> {{ success ? 'El estudiante aprobará todas las materias ingresadas' : 'El estudiante no aprobará todas las materias ingresadas'}}
+                    </p>
+                -->
+                </div>
+                <div class="card-spinner" *ngIf="loadingPred">
+                    <mat-progress-spinner color="primary" mode="indeterminate">
+                    </mat-progress-spinner>
+                </div>
+                <div>
+                    <button mat-button matStepperPrevious class="med-width">Atrás</button>
+                    <button mat-button (click)="stepper.reset()" class="med-width">Resetear</button>
+                </div>
+            </mat-step>
+        </mat-horizontal-stepper>
+    </mat-card>
+</div>

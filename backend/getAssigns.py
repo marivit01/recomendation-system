@@ -3,6 +3,7 @@ import numpy as np
 import os.path
 import sys
 from sklearn.model_selection import train_test_split
+import itertools
 
 def getAvailableSubjects(studentId):
     studentId = int(studentId)
@@ -99,14 +100,45 @@ def getCredits(seenSubjects):
     # print("credits", total_credits, bp_credits)
     return (total_credits, bp_credits)
 
-# Función que recibe un array de las materias que un estudiante no ha visto, 
-# y che
-# def getPrelaciones(assignCode, availablesArray):
-#     # Rama de ingles
-#     if(assignCode == 'FBTIN04' AND availablesArray.):
+def createCombinations(availablesArray, assignsNumber):
+    combinations = []
+    final_combinations = pd.DataFrame()
+    availables = []
+
+    for subject in availablesArray:
+        print('ITEM', subject['code'])
+        availables.append(subject['code'])
+    print('availables:', availables)
+
+    if (assignsNumber != 'all'):
+        assignsNumber = int(assignsNumber)
+
+        # Obtener todas las combinaciones posibles de materias, de una longitud pasada por parametro
+        combinations = list(itertools.combinations(availablesArray, assignsNumber))
+        print('opc1: ', combinations)     
+    else:
+        numbers = [2,3,4,5,6]
+
+        # Obtener todas las combinaciones posibles de materias, de todas las longitudes posibles
+        for number in numbers:
+            print('current number: ', number)
+            combs = list(itertools.combinations(availables, number))
+            combs = pd.DataFrame(np.asarray(combs))
+            # print('comb: ',comb)
+            # print('comb array: ', np.asarray(comb))
+            # print('total comb: ',combinations)
+            print('shapes', combs.shape)
+            print('combs', combs)
+            # final_combinations = np.concatenate((final_combinations, combs), axis=None)
+            final_combinations = pd.concat([final_combinations, combs])
+            # final_combinations.append(combs)
+
+        print('opc2: ', final_combinations)     
+    
+    # Print the obtained combinations 
+    print('final combs: ', np.asarray(final_combinations))  
+    return np.asarray(final_combinations)
 
 
-# def removeUnnecessary(availablesArray):
 
-# def getQuarters():
     
