@@ -8,7 +8,7 @@ import itertools
 def getAvailableSubjects(studentId):
     studentId = int(studentId)
     # one_hot_path = os.path.abspath('..\\datos\\ordenados\\one_hot.csv')
-    one_hot_path = os.path.abspath('..\\datos\\modelos\\model-5\\one_hot_new_classes.csv')
+    one_hot_path = os.path.abspath("../datos/modelos/model-5/one_hot_new_classes.csv")
     one_hot = pd.read_csv(one_hot_path)
     grouped = one_hot[one_hot['estudiante'] == studentId].sort_values('trimestre').groupby(['estudiante'])
     assigns_trim_target = []
@@ -31,7 +31,7 @@ def getAvailableSubjects(studentId):
 
     #NUEVO
     seenSubjects = np.asarray(assigns_trim_target_aux)
-    path = os.path.abspath('..\\datos\\subjectNames.csv')
+    path = os.path.abspath('../datos/subjectNames.csv')
     subjectNames = pd.read_csv(path).sort_values('asignatura')
 
     # Se obtienen las materias que el estudiante no ha visto
@@ -133,6 +133,8 @@ def createCombinations(availablesArray, assignsNumber):
             final_combinations = pd.concat([final_combinations, combs])
             # final_combinations.append(combs)
 
+        # final_combinations = final_combinations.replace(np.nan, '', regex=True)
+        final_combinations = final_combinations.fillna(value='')
         print('opc2: ', final_combinations)     
     
     # Print the obtained combinations 

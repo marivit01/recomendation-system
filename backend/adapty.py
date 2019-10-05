@@ -20,14 +20,14 @@ def adapty(assigns_trim_target):
 
   all_assigns.sort()
 
-  print('LEEEEEEEEEENGTH', all_assigns.__len__())
+  print('LEEEEEEEEEENGTH y', all_assigns.__len__())
 
   only_assigns = {}
   for assign_zero in all_assigns:
     only_assigns[assign_zero] = 0
     
   for assign in assigns_trim_target:
-    print(assign)
+    print("assign", assign)
     only_assigns[assign] = 1
     
   array_target.append(np.array( tuple(only_assigns.values()) ))
@@ -225,7 +225,7 @@ def adaptYModel5(assigns_trim_target, array_data):
 
   all_assigns.sort()
 
-  print('LEEEEEEEEEENGTH', all_assigns.__len__())
+  print('LEEEEEEEEEENGTH model 5', all_assigns.__len__())
 
   # Rellenar todos los espacios de materias target en 0 
 
@@ -234,12 +234,16 @@ def adaptYModel5(assigns_trim_target, array_data):
   for idx, trim in enumerate(assigns_trim_target):
     # Se llena la fila que va dentro de cada fila de row_assigns
     only_assigns = {}
+
+    # print("trim", trim)
+
     for assign_zero in all_assigns:
       only_assigns[assign_zero] = 0
     
     for assign in trim:
-      print(assign)
-      only_assigns[assign] = 1
+      # print("assign", assign)
+      if (assign != ''):
+        only_assigns[assign] = 1
     
     array_target.append(np.array( tuple(only_assigns.values()) ))
     new_array_data.append(array_data[0])

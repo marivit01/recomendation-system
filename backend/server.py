@@ -47,7 +47,7 @@ def getSubjectsCall(studentId):
 @app.route('/api/getCombinations/<assignsNumber>',methods=['POST'])
 def getCombinationsCall(assignsNumber):
     availableSubjects = request.get_json(force=True)
-    return jsonify(createCombinations(availableSubjects, assignsNumber)) 
+    return jsonify(createCombinations(availableSubjects, assignsNumber).tolist()) 
 
 
 @app.route('/api/predict-model-2/<studentId>',methods=['POST']) #http://localhost:8081/api/predict
@@ -162,26 +162,42 @@ def predictModel5(studentId):
     array_data_test = adaptX(studentId)
     print("DATA X:", array_data_test[0][0], array_data_test[0][29], array_data_test.shape)
     array_target_test, array_data_test = adaptYModel5(targetTrim, array_data_test)
-    print("array", array_data_test.shape, array_target_test.shape, file=sys.stderr)
+    print("array", array_data_test.shape, array_target_test[0].shape, file=sys.stderr)
 
     print("target result:", array_target_test, file=sys.stderr)
 
-    modelPath = os.path.abspath('..\\datos\modelos\\model-5\\model5-2-test-split.pkl')
+    modelPath = os.path.abspath("../datos/modelos/model-5/model5-2-test-split.pkl")
     model = joblib.load(open(modelPath,'rb'))
 
     output = model.predict([array_data_test, array_target_test])
+
     print(output, file=sys.stderr)
+
+    outputs = []
+    for o in output:
+        outputs.append(o[0])
+    print("maxmos", np.argsort(outputs)[::-1][:10])
+
+    order_index = np.argsort(outputs)[::-1][:10]
+
+    final_subjects = []
+
+    for oi in order_index:
+        print("trimestre", targetTrim[oi])
+        final_subjects.append([targetTrim[oi], str(output[oi][0])])
+    
+    print("final subjects", final_subjects)
 
     #After prediction
     K.clear_session()
-    return jsonify(output.tolist())
+    return jsonify(final_subjects)
 
 
 if __name__ == '__main__':
     # run web server
     app.run(host=HOST,
             debug=True,  # automatic reloading enabled
-            port=PORT)
+            port=PORT) 
 
 
 
