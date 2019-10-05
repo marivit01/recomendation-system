@@ -18,6 +18,9 @@ import { MatStepperModule } from '@angular/material/stepper';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import {DragDropModule} from '@angular/cdk/drag-drop';
+import {MatGridListModule} from '@angular/material/grid-list';
+import {MatListModule} from '@angular/material/list';
+
 import { DragAndDropComponent } from './components/selection/drag-and-drop/drag-and-drop.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { RecomendationComponent } from './components/recomendation/recomendation.component';
@@ -46,6 +49,8 @@ import { RecomendationComponent } from './components/recomendation/recomendation
     MatInputModule,
     DragDropModule,
     MatProgressSpinnerModule,
+    MatGridListModule,
+    MatListModule
   ],
   providers: [],
   bootstrap: [AppComponent]

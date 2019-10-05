@@ -105,10 +105,11 @@ def createCombinations(availablesArray, assignsNumber):
     final_combinations = pd.DataFrame()
     availables = []
 
-    for subject in availablesArray:
-        print('ITEM', subject['code'])
-        availables.append(subject['code'])
-    print('availables:', availables)
+#  COMENTADO PORQUE AHORA DESDE EL FRONT SE OBTIENEN DIRECTAMENTE LOS CODIGOS
+    # for subject in availablesArray:
+    #     print('ITEM', subject['code'])
+    #     availables.append(subject['code'])
+    # print('availables:', availables)
 
     if (assignsNumber != 'all'):
         assignsNumber = int(assignsNumber)
@@ -122,7 +123,7 @@ def createCombinations(availablesArray, assignsNumber):
         # Obtener todas las combinaciones posibles de materias, de todas las longitudes posibles
         for number in numbers:
             print('current number: ', number)
-            combs = list(itertools.combinations(availables, number))
+            combs = list(itertools.combinations(availablesArray, number))
             combs = pd.DataFrame(np.asarray(combs))
             # print('comb: ',comb)
             # print('comb array: ', np.asarray(comb))

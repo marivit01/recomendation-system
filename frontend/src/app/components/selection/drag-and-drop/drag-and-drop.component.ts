@@ -11,6 +11,8 @@ export class DragAndDropComponent implements OnInit, OnChanges {
   @Input() id: string;
   @Input() loading;
   @Input() reset = false;
+  @Input() recomendation: boolean;
+
   @Output() targetSubjects = new EventEmitter<string[]>();
   @Output() loaded = new EventEmitter<boolean>();
 
@@ -100,10 +102,17 @@ export class DragAndDropComponent implements OnInit, OnChanges {
   formatTarget() {
     // Se crea un array con los codigos de las materias seleccionadas para el trimestre target, y se emite al componente padre
     const target = [];
-    this.studentSubjects.forEach( subject => {
-      target.push(subject.code);
-    });
-    console.log(target);
+    if(this.recomendation) {
+      this.allSubjects.forEach( subject => {
+        target.push(subject.code);
+      });
+      console.log('recomendation', target);
+    } else {
+      this.studentSubjects.forEach( subject => {
+        target.push(subject.code);
+      })
+      console.log('target normal', target);
+    }
     this.targetSubjects.emit(target);
   }
 }

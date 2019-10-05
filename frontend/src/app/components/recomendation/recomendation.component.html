@@ -6,16 +6,35 @@
                 <form [formGroup]="dataForm" class="full-height mod">
                     <ng-template matStepLabel>Ingrese el id del estudiante</ng-template>
                     <mat-form-field class="full-width py-3">
-                        <input matInput placeholder="Identificador" formControlName="id" required (keyup.enter)="nextStep(1)">
+                        <input matInput placeholder="Identificador" formControlName="id" required
+                            (keyup.enter)="nextStep(1)">
                     </mat-form-field>
                     <mat-form-field class="full-width py-3">
-                        <input matInput placeholder="Número de asignaturas" formControlName="numberAssigns" (keyup.enter)="nextStep(1)">
+                        <input matInput placeholder="Número de asignaturas" formControlName="numberAssigns"
+                            (keyup.enter)="nextStep(1)">
                     </mat-form-field>
                     <div>
-                        <button mat-button matStepperPrevious (click)="goBack()" class="med-width">Volver al inicio</button>
+                        <button mat-button matStepperPrevious (click)="goBack()" class="med-width">Volver al
+                            inicio</button>
                         <button mat-button matStepperNext class="med-width">Siguiente</button>
                     </div>
                 </form>
+            </mat-step>
+            <mat-step [stepControl]="secondFormGroup">
+                <ng-template matStepLabel>Seleccione las materias a considerar
+                </ng-template>
+                <drag-and-drop [id]="studentId" recomendation="true" (targetSubjects)="getAvailablesFiltered($event)"
+                    [loading]="loading" [reset]="resetList" (loaded)=loaded($event)></drag-and-drop>
+                <ng-container *ngIf="loading">
+                    <div class="card-spinner full-height">
+                        <mat-progress-spinner color="primary" mode="indeterminate">
+                        </mat-progress-spinner>
+                    </div>
+                </ng-container>
+                <div>
+                    <button mat-button matStepperPrevious class="med-width">Atrás</button>
+                    <button mat-button matStepperNext class="med-width">Siguiente</button>
+                </div>
             </mat-step>
             <mat-step>
                 <ng-template matStepLabel>Resultado
@@ -28,6 +47,21 @@
                     <p> {{ success ? 'El estudiante aprobará todas las materias ingresadas' : 'El estudiante no aprobará todas las materias ingresadas'}}
                     </p>
                 -->
+                    <h1> Combinaciones obtenidas</h1>
+                    <div *ngFor="let combination of predictionResult">
+                        <mat-grid-list cols="2" rowHeight="100px">
+                            <mat-grid-tile colspan="2" rowspan="1">
+                                <mat-list role="list">
+                                    <mat-list-item role="listitem" *ngFor="let subject of combination[0]">
+                                        {{ subject }}
+                                    </mat-list-item>
+                                </mat-list>
+                            </mat-grid-tile>
+                            <mat-grid-tile colspan="2" rowspan="1">
+                                <p>Probabilidad: {{ combination[1] | percent: '.2'}}</p>
+                            </mat-grid-tile>
+                        </mat-grid-list>
+                    </div>
                 </div>
                 <div class="card-spinner" *ngIf="loadingPred">
                     <mat-progress-spinner color="primary" mode="indeterminate">

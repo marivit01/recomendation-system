@@ -9,7 +9,7 @@
     </div>
 
     <div class="example-container">
-        <h2>Materias seleccionadas</h2>
+        <h2>{{ recomendation ? 'Materias descartadas' : 'Materias seleccionadas'}}</h2>
 
         <div cdkDropList [cdkDropListData]="studentSubjects" class="asignatures-list" (cdkDropListDropped)="drop($event)">
             <div class="asignature-box" *ngFor="let item of studentSubjects" cdkDrag>{{item.name}}</div>

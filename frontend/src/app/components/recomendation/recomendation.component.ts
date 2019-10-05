@@ -10,15 +10,17 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class RecomendationComponent implements OnInit {
   dataForm: FormGroup;
+  secondFormGroup: FormGroup;
+
   allSubjects: { code: string; name: string; disabled: boolean; }[];
   allCombinations = [];
   loading = false;
   studentId: string;
   numberAssigns: string;
   predictionResult;
-  loadingPred: boolean;
+  loadingPred = false;
   success = false;
-  predictionOption: string;
+  availablesFiltered: { code: string; name: string; disabled: boolean; }[];
 
   constructor(
     private formBuilder: FormBuilder,
@@ -28,10 +30,6 @@ export class RecomendationComponent implements OnInit {
 
   ngOnInit() {
     this.createForm();
-    this.route.params.subscribe(param => {
-      this.predictionOption = param.selection;
-      console.log(this.predictionOption);
-    });
   }
 
   createForm() {
@@ -39,13 +37,16 @@ export class RecomendationComponent implements OnInit {
       id: ['', Validators.required],
       numberAssigns: ['']
     });
+
+    this.secondFormGroup = this.formBuilder.group({
+      targetSubjects: ['', Validators.required]
+    });
   }
 
   nextStep(step) {
     console.log(step);
     switch (step) {
       case 1:
-        // if (this.studentId !== this.firstFormGroup.value.id) {
         this.loading = true;
         console.log(step, this.dataForm.value);
         this.studentId = this.dataForm.value.id;
@@ -53,28 +54,30 @@ export class RecomendationComponent implements OnInit {
         if (this.numberAssigns === "") {
           this.numberAssigns = 'all';
         }
-        this.getAvailableSubjects(this.studentId);
         break;
-      //}
+      case 2:
+        this.loadingPred = true;
+        // this.predict();
+        this.getCombinations();
+        break;
     }
   }
 
-  getAvailableSubjects(id) {
-    this.apiService.getAvailableSubjects(id).then(res => {
-      console.log('res', res);
-      this.allSubjects = res.filter(r => {
-        if (!r.disabled) {
-          return r;
-        }
-        return null;
-      });
-      console.log("all subjects", this.allSubjects);
-      this.getCombinations(this.numberAssigns);
-    });
+  getAvailablesFiltered(filtered) {
+    // this.availablesFiltered = filtered;
+    this.secondFormGroup.setValue({ targetSubjects: filtered });
+
   }
 
-  getCombinations(number?) {
-    this.apiService.getCombinations(this.allSubjects, number).then(res => {
+  /**
+   * @param availablesFiltered
+   * @param number 
+   * Funcion que genera todas las posibles combinaciones de materias a partir de
+   * el array de las materias disponibles escogidas por el usuario
+   */
+  getCombinations() {
+    this.availablesFiltered = this.secondFormGroup.value.targetSubjects;
+    this.apiService.getCombinations(this.availablesFiltered, this.numberAssigns).then(res => {
       // console.log('res', res);
       this.allCombinations = res;
       console.log("all subjects combinations", this.allCombinations);
@@ -86,66 +89,20 @@ export class RecomendationComponent implements OnInit {
     // const targetQuarter = this.secondFormGroup.value.targetSubjects;
     this.apiService.predictPerformanceModel5(this.studentId, this.allCombinations).then(res => {
       console.log('res', res);
-      this.predictionResult = res[0][0];
+      this.predictionResult = res;
       // console.log(this.predictionResult);
-      if (this.predictionResult >= 0.5) {
-        this.success = true;
-      } else {
-        this.success = false;
-      }
+      // if (this.predictionResult >= 0.5) {
+      //   this.success = true;
+      // } else {
+      //   this.success = false;
+      // }
       this.loadingPred = false;
     });
-    
-    switch (this.predictionOption) {
-      // case 'global': {
-      //   console.log('entro en global');
-      //   this.apiService.predictStudentPerformance(this.studentId, targetQuarter).then(res => {
-      //     console.log('res', res);
-      //     this.predictionResult = res[0][0];
-      //     console.log(this.predictionResult);
-      //     if (this.predictionResult >= 0.5) {
-      //       this.success = true;
-      //     } else {
-      //       this.success = false;
-      //     }
-      //     this.loadingPred = false;
-      //     this.apiService.predictIndice(this.studentId, targetQuarter).then(res2 => {
-      //       console.log('Respuesta modelo indice:', res2);
-      //     });
-      //   });
-      //   break;
-      // }
-      // case 'custom': {
-      //   console.log('entro en custom');
-      //   // this.apiService.predictStudentPerformanceByAssigns(this.studentId, targetQuarter).then(res => {
-      //   this.apiService.predictPerformanceModel4_V1(this.studentId, targetQuarter).then(res => {
-      //     console.log('res', res);
-      //     this.predictionResult = res[0][0];
-      //     // console.log(this.predictionResult);
-      //     if (this.predictionResult >= 0.5) {
-      //       this.success = true;
-      //     } else {
-      //       this.success = false;
-      //     }
-      //     this.loadingPred = false;
-      //   });
-      //   break;
-      // }
-      case 'recomendation': {
-        console.log('entro en probatorio');
-        this.apiService.predictPerformanceModel5(this.studentId, this.allCombinations).then(res => {
-          console.log('res', res);
-          this.predictionResult = res;
-          // console.log(this.predictionResult);
-          if (this.predictionResult >= 0.5) {
-            this.success = true;
-          } else {
-            this.success = false;
-          }
-          this.loadingPred = false;
-        });
-      }
-    }
+  }
+
+  loaded(event) {
+    console.log(event);
+    this.loading = event;
   }
 
 }
