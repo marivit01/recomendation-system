@@ -80,7 +80,7 @@ def getSubjectsNames(availablesArray, total_credits, bp_credits):
 
             if (np.isnan(subject.values[6]) == False):
                 # Determina si el estudiante no ha visto la materia ni ha cumplido con los creditos bp si aplica
-                if (availablesArray['asignatura'].isin(subject.values[3].split(' ')).any() or subject.values[6] > bp_credits):
+                if (availablesArray['asignatura'].isin(subject.values[3].split(' ')).any() and subject.values[6] > bp_credits):
                     # print("no cumple con los creditos BP ni las asignaturas")
                     subject_disabled = True
             else:
