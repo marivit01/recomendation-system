@@ -1,5 +1,5 @@
 .stepper-box {
-    min-height: 630px;
+    min-height: 550px;
     height: auto;
     min-width: 70vw;
     padding: 20px;
@@ -23,12 +23,12 @@
 
 .mat-horizontal-content-container {
     padding: 0 24px;
-    max-height: 75vh;
+    // max-height: 75vh;
 
-    .mat-horizontal-stepper-content {
-        max-height: 70vh;
-        overflow-y: auto;
-    }
+    // .mat-horizontal-stepper-content {
+    //     max-height: 70vh;
+    //     overflow-y: auto;
+    // }
 }
 
 .result-grid {
@@ -43,7 +43,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 330px;
+    min-height: 420px;
 }
 
 .full-height {
@@ -52,7 +52,7 @@
     flex-flow: column;
 
     &.mod {
-        min-height: 530px;
+        // min-height: 530px;
         justify-content: space-between;
     }
 }

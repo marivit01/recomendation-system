@@ -4,13 +4,13 @@
             (selectionChange)="nextStep($event.selectedIndex)">
             <mat-step [stepControl]="dataForm">
                 <form [formGroup]="dataForm" class="full-height mod">
-                    <ng-template matStepLabel>Ingrese el id del estudiante</ng-template>
-                    <mat-form-field class="full-width py-3">
+                    <ng-template matStepLabel>Ingrese los datos</ng-template>
+                    <mat-form-field class="full-width pt-3">
                         <input matInput placeholder="Identificador" formControlName="id" required
                             (keyup.enter)="nextStep(1)">
                     </mat-form-field>
                     <mat-form-field class="full-width py-3">
-                        <input matInput placeholder="Número de asignaturas" formControlName="numberAssigns"
+                        <input matInput placeholder="Número de asignaturas (Opcional)" formControlName="numberAssigns"
                             (keyup.enter)="nextStep(1)">
                     </mat-form-field>
                     <div>
@@ -47,35 +47,25 @@
                     <p> {{ success ? 'El estudiante aprobará todas las materias ingresadas' : 'El estudiante no aprobará todas las materias ingresadas'}}
                     </p>
                 -->
-                    <h1> Combinaciones obtenidas</h1>
-                    <!-- <div *ngFor="let combination of predictionResult">
-                        <mat-grid-list cols="2" rowHeight="100px">
-                            <mat-grid-tile colspan="2" rowspan="1">
-                                <mat-list role="list">
-                                    <mat-list-item role="listitem" *ngFor="let subject of combination[0]">
-                                        {{ subject }}
-                                    </mat-list-item>
-                                </mat-list>
-                            </mat-grid-tile>
-                            <mat-grid-tile colspan="2" rowspan="1">
-                                <p>Probabilidad: {{ combination[1] | percent: '.2'}}</p>
-                            </mat-grid-tile>
-                        </mat-grid-list>
-                    </div> -->
-
-
-                    <div *ngFor="let combination of predictionResult">
-                        <!-- two line list -->
-                        <mat-list>
-                            <h3 matLine> Probabilidad: {{ combination.prediction | percent: '.2'}} </h3>
-                            <mat-list-item *ngFor="let subject of combination.subjects">
-                                <p matLine>
-                                    <span> {{ subject.name }} </span>
-                                </p>
-                            </mat-list-item>
-                        </mat-list>
-                    </div>
-
+                    <h3> Combinaciones obtenidas</h3>
+                    <mat-card class="card-combination" *ngFor="let combination of predictionResult">
+                            <mat-grid-list cols="2" rowHeight="150px">
+                                <mat-grid-tile colspan="1" rowspan="1">
+    
+                                    <mat-list>
+                                        <mat-list-item class="simple" *ngFor="let subject of combination.subjects">
+                                            <p matLine>
+                                                <span> {{ subject.name }} </span>
+                                            </p>
+                                        </mat-list-item>
+                                    </mat-list>
+    
+                                </mat-grid-tile>
+                                <mat-grid-tile colspan="1" rowspan="1">
+                                    <h4 matLine> Probabilidad: {{ combination.prediction | percent: '.2'}} </h4>
+                                </mat-grid-tile>
+                            </mat-grid-list>
+                    </mat-card>
 
 
                 </div>

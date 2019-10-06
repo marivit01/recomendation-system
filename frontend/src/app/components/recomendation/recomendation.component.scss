@@ -1,19 +1,35 @@
-mat-card {
-  max-height: 90vh;
+// mat-card {
+//   max-height: 90vh;
+// }
+
+// mat-horizontal-stepper {
+//   max-height: 90vh;
+// }
+
+// .mat-horizontal-stepper-content {
+//     max-height: 70vh;
+//     overflow-y: auto;
+// }
+
+// .result-grid {
+//   overflow-y: auto;
+//   &.full-height {
+//     display: unset;
+//   }
+// }
+
+.card-combination {
+  padding: 10px;
+  margin: 20px 0;
+  height: -webkit-fill-available;
+  border: solid 1px #d3d3d39e;
+  border-radius: 4px;
+  background: white;
+  min-height: 80px;
 }
 
-mat-horizontal-stepper {
-  max-height: 90vh;
-}
-
-.mat-horizontal-stepper-content {
-    max-height: 70vh;
-    overflow-y: auto;
-}
-
-.result-grid {
-  overflow-y: auto;
-  &.full-height {
-    display: unset;
-  }
+.simple {
+  height: initial !important;
+  padding: 5px !important;
+  font-size: 14px;
 }

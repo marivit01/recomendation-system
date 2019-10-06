@@ -58,6 +58,7 @@ export class RecomendationComponent implements OnInit {
         if (this.numberAssigns === "") {
           this.numberAssigns = 'all';
         }
+        this.getAvailableSubjects(this.studentId);
         break;
       case 2:
         this.loadingPred = true;
@@ -116,16 +117,15 @@ export class RecomendationComponent implements OnInit {
   getSubjectsName(predictionRes: PredictionModelFive): { code: string; name: string; disabled: boolean; }[]
   {
     let subjectsInfo: { code: string; name: string; disabled: boolean; }[] = [];
-    this.apiService.getAvailableSubjects(this.studentId).then(subjects => {
       predictionRes.subjects.forEach(subjectCode => {
-        console.log("subject code", subjectCode, subjects);
+        // console.log("subject code", subjectCode, this.allSubjects);
         
         if (subjectCode != "") {
-          subjects.forEach(s => {
-            console.log("eseee", s);
+          this.allSubjects.forEach(s => {
+            // console.log("eseee", s);
             
             if (s.code == subjectCode) {
-              console.log("if", s.code, subjectCode);
+              // console.log("if", s.code, subjectCode);
               
               subjectsInfo.push(s);
             }
@@ -134,15 +134,19 @@ export class RecomendationComponent implements OnInit {
           )
         }
       });
-    }).catch(err => {
-      return null;
-    })
     return subjectsInfo;
   }
 
   loaded(event) {
     console.log(event);
     this.loading = event;
+  }
+
+  getAvailableSubjects(id) {
+    this.apiService.getAvailableSubjects(id).then(res => {
+      this.allSubjects = res;
+      console.log("all subjects", this.allSubjects);
+    });
   }
 
 }

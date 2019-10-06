@@ -79,6 +79,7 @@ export class DragAndDropComponent implements OnInit, OnChanges {
       });
       console.log("all subjects", this.allSubjects);
       this.loaded.emit(false);
+      this.formatTarget();
     });
   }
 
