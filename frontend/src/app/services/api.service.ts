@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ProbabilityPrediction } from '../models/prediction';
+import { PredictionModelFive } from '../models/prediction-model-five';
 
 @Injectable({
   providedIn: 'root'
@@ -72,13 +73,13 @@ export class ApiService {
     });
   }
 
-  public predictPerformanceModel5(id, target): Promise<any> {
+  public predictPerformanceModel5(id, target): Promise<PredictionModelFive[]> {
     return new Promise<any>((resolve, reject) => {
       const quarters = target;
       console.log('quarters', quarters);
       this.http.post(`${this.API_URL}predict-model-5/${id}`, quarters).toPromise().then(res => {
         console.log('get result', res);
-        resolve(res);
+        resolve(res as PredictionModelFive);
       }).catch(err => {
         console.error( 'Error: Unable to complete request.', err);
         reject();

@@ -23,6 +23,12 @@
 
 .mat-horizontal-content-container {
     padding: 0 24px;
+    max-height: 75vh;
+
+    .mat-horizontal-stepper-content {
+        max-height: 70vh;
+        overflow-y: auto;
+    }
 }
 
 .result-grid {

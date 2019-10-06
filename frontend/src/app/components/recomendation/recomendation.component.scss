@@ -1,0 +1,19 @@
+mat-card {
+  max-height: 90vh;
+}
+
+mat-horizontal-stepper {
+  max-height: 90vh;
+}
+
+.mat-horizontal-stepper-content {
+    max-height: 70vh;
+    overflow-y: auto;
+}
+
+.result-grid {
+  overflow-y: auto;
+  &.full-height {
+    display: unset;
+  }
+}

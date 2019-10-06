@@ -48,7 +48,7 @@
                     </p>
                 -->
                     <h1> Combinaciones obtenidas</h1>
-                    <div *ngFor="let combination of predictionResult">
+                    <!-- <div *ngFor="let combination of predictionResult">
                         <mat-grid-list cols="2" rowHeight="100px">
                             <mat-grid-tile colspan="2" rowspan="1">
                                 <mat-list role="list">
@@ -61,7 +61,23 @@
                                 <p>Probabilidad: {{ combination[1] | percent: '.2'}}</p>
                             </mat-grid-tile>
                         </mat-grid-list>
+                    </div> -->
+
+
+                    <div *ngFor="let combination of predictionResult">
+                        <!-- two line list -->
+                        <mat-list>
+                            <h3 matLine> Probabilidad: {{ combination.prediction | percent: '.2'}} </h3>
+                            <mat-list-item *ngFor="let subject of combination.subjects">
+                                <p matLine>
+                                    <span> {{ subject.name }} </span>
+                                </p>
+                            </mat-list-item>
+                        </mat-list>
                     </div>
+
+
+
                 </div>
                 <div class="card-spinner" *ngIf="loadingPred">
                     <mat-progress-spinner color="primary" mode="indeterminate">

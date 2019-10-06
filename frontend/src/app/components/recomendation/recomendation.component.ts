@@ -2,11 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { ApiService } from 'src/app/services/api.service';
 import { ActivatedRoute } from '@angular/router';
+import { PredictionModelFive } from 'src/app/models/prediction-model-five';
 
 @Component({
   selector: 'app-recomendation',
   templateUrl: './recomendation.component.html',
-  styleUrls: ['./recomendation.component.css']
+  styleUrls: ['./recomendation.component.scss']
 })
 export class RecomendationComponent implements OnInit {
   dataForm: FormGroup;
@@ -17,7 +18,10 @@ export class RecomendationComponent implements OnInit {
   loading = false;
   studentId: string;
   numberAssigns: string;
-  predictionResult;
+  predictionResult: {
+    subjects: { code: string; name: string; disabled: boolean; }[],
+    prediction: string
+  }[];
   loadingPred = false;
   success = false;
   availablesFiltered: { code: string; name: string; disabled: boolean; }[];
@@ -89,7 +93,16 @@ export class RecomendationComponent implements OnInit {
     // const targetQuarter = this.secondFormGroup.value.targetSubjects;
     this.apiService.predictPerformanceModel5(this.studentId, this.allCombinations).then(res => {
       console.log('res', res);
-      this.predictionResult = res;
+      this.predictionResult = res.map(r => {
+        console.log("iterador map", r);
+        
+        return {
+          prediction: r.prediction,
+          subjects: this.getSubjectsName(r)
+        }
+      });
+      console.log("resultado final", this.predictionResult);
+      
       // console.log(this.predictionResult);
       // if (this.predictionResult >= 0.5) {
       //   this.success = true;
@@ -98,6 +111,33 @@ export class RecomendationComponent implements OnInit {
       // }
       this.loadingPred = false;
     });
+  }
+
+  getSubjectsName(predictionRes: PredictionModelFive): { code: string; name: string; disabled: boolean; }[]
+  {
+    let subjectsInfo: { code: string; name: string; disabled: boolean; }[] = [];
+    this.apiService.getAvailableSubjects(this.studentId).then(subjects => {
+      predictionRes.subjects.forEach(subjectCode => {
+        console.log("subject code", subjectCode, subjects);
+        
+        if (subjectCode != "") {
+          subjects.forEach(s => {
+            console.log("eseee", s);
+            
+            if (s.code == subjectCode) {
+              console.log("if", s.code, subjectCode);
+              
+              subjectsInfo.push(s);
+            }
+            // subjectsInfo.push({ code: subjectCode, name: 'NaN', disabled: true });
+          }
+          )
+        }
+      });
+    }).catch(err => {
+      return null;
+    })
+    return subjectsInfo;
   }
 
   loaded(event) {

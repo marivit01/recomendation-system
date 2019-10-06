@@ -111,12 +111,33 @@ def createCombinations(availablesArray, assignsNumber):
     #     availables.append(subject['code'])
     # print('availables:', availables)
 
-    if (assignsNumber != 'all'):
-        assignsNumber = int(assignsNumber)
 
-        # Obtener todas las combinaciones posibles de materias, de una longitud pasada por parametro
-        combinations = list(itertools.combinations(availablesArray, assignsNumber))
-        print('opc1: ', combinations)     
+
+    # if (assignsNumber != 'all'):
+    #     assignsNumber = int(assignsNumber)
+
+    #     # Obtener todas las combinaciones posibles de materias, de una longitud pasada por parametro
+    #     combinations = list(itertools.combinations(availablesArray, assignsNumber))
+    #     print('opc1: ', combinations)     
+
+
+    if (assignsNumber != 'all'):
+        number = int(assignsNumber)
+        print('current number: ', number)
+        combs = list(itertools.combinations(availablesArray, number))
+        combs = pd.DataFrame(np.asarray(combs))
+        # print('comb: ',comb)
+        # print('comb array: ', np.asarray(comb))
+        # print('total comb: ',combinations)
+        print('shapes', combs.shape)
+        print('combs', combs)
+        # final_combinations = np.concatenate((final_combinations, combs), axis=None)
+        final_combinations = pd.concat([final_combinations, combs])
+        # final_combinations.append(combs)
+
+        # final_combinations = final_combinations.replace(np.nan, '', regex=True)
+        final_combinations = final_combinations.fillna(value='')
+        print('opc2: ', final_combinations)
     else:
         numbers = [2,3,4,5,6]
 

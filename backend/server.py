@@ -184,7 +184,7 @@ def predictModel5(studentId):
 
     for oi in order_index:
         print("trimestre", targetTrim[oi])
-        final_subjects.append([targetTrim[oi], str(output[oi][0])])
+        final_subjects.append({'subjects': targetTrim[oi], 'prediction': str(output[oi][0])})
     
     print("final subjects", final_subjects)
 
