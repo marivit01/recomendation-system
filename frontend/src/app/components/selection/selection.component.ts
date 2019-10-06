@@ -3,6 +3,7 @@ import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { Location } from '@angular/common';
 import { ApiService } from 'src/app/services/api.service';
 import { ActivatedRoute } from '@angular/router';
+import { PredictionModelFive } from 'src/app/models/prediction-model-five';
 
 @Component({
   selector: 'app-selection',
@@ -19,7 +20,10 @@ export class SelectionComponent implements OnInit {
   loadingPred: boolean;
   resetList = false;
   predictionOption: string;
-
+  predictionM5: {
+    subjects: string[],
+    prediction: string
+  }[];
   constructor(private apiService: ApiService,
     private formBuilder: FormBuilder,
     private location: Location,
@@ -114,11 +118,11 @@ export class SelectionComponent implements OnInit {
       }
       case 'probatorio': {
         console.log('entro en probatorio');
-        this.apiService.predictPerformanceModel5(this.studentId, targetQuarter).then(res => {
+        this.apiService.predictPerformanceModel5(this.studentId, targetQuarter, true).then(res => {
           console.log('res', res);
-          this.predictionResult = res[0][0];
+          this.predictionM5 = res;
           // console.log(this.predictionResult);
-          if (this.predictionResult >= 0.5) {
+          if (this.predictionResult[0].prediction >= 0.5) {
             this.success = true;
           } else {
             this.success = false;

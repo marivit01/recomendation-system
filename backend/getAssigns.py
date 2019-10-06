@@ -52,16 +52,35 @@ def getSubjectsNames(availablesArray, total_credits, bp_credits):
         subject_disabled = False
 
         if (isinstance(subject.values[8], str)):
-            # Asignaturas que no vio porque empezó en una lista que no las requiere o no hacen falta ver
-            if (availablesArray['asignatura'].isin(subject.values[8].split(' ')).any() == False): 
-                    # print("vio alguna de las siguientes de estas")
+            ## CASO ESPECIAL LISTA 5 -> ORDEN: [materia lista siguiente, materia de lista 1]
+            print("LENGTH: ", len(subject.values[8].split(' ')))
+            if (len(subject.values[8].split(' ')) > 1):
+                print("disponibles: ", availablesArray)
+                print("materias que siguen:", subject.values[8].split(' '))
+                print("m1:", list(subject.values[8].split(' ')[0]))
+                print("m2:", list(subject.values[8].split(' ')[1]))
+
+                print("SI O QUE: ", availablesArray['asignatura'].isin(list(subject.values[8].split(' ')[1])).any())
+
+                # Asignaturas que no vio porque empezó en una lista que no las requiere o no hacen falta ver
+                if (availablesArray['asignatura'].isin(list(subject.values[8].split(' ')[1])).any() == False): 
+                    # Ya vio la materia que le seguia en la lista 1
                     subject_disabled = True
+                elif (availablesArray['asignatura'].isin(list(subject.values[8].split(' ')[0])).any() == False): 
+                    # Ya vio la materia que le seguir en la siguiente lista
+                    subject_disabled = True
+            else:
+                if (availablesArray['asignatura'].isin(subject.values[8].split(' ')).any() == False): 
+                    subject_disabled = True              
 
         if (isinstance(subject.values[3], str)):
-            # print("split", availablesArray, subject.values[3].split(' '),availablesArray['asignatura'].isin(subject.values[3].split(' ')).any())
+            # print("disponibles: ", availablesArray)
+            # print("materias que prelan:", subject.values[3].split(' '))
+            # print("SI O QUE: ", availablesArray['asignatura'].isin(subject.values[3].split(' ')).any())
+
             if (np.isnan(subject.values[6]) == False):
                 # Determina si el estudiante no ha visto la materia ni ha cumplido con los creditos bp si aplica
-                if (availablesArray['asignatura'].isin(subject.values[3].split(' ')).any() and subject.values[6] > bp_credits):
+                if (availablesArray['asignatura'].isin(subject.values[3].split(' ')).any() or subject.values[6] > bp_credits):
                     # print("no cumple con los creditos BP ni las asignaturas")
                     subject_disabled = True
             else:

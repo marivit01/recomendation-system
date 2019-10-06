@@ -235,13 +235,13 @@ def adaptYModel5(assigns_trim_target, array_data):
     # Se llena la fila que va dentro de cada fila de row_assigns
     only_assigns = {}
 
-    # print("trim", trim)
+    print("trim", trim)
 
     for assign_zero in all_assigns:
       only_assigns[assign_zero] = 0
     
     for assign in trim:
-      # print("assign", assign)
+      print("assign", assign)
       if (assign != ''):
         only_assigns[assign] = 1
     

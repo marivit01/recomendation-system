@@ -73,9 +73,14 @@ export class ApiService {
     });
   }
 
-  public predictPerformanceModel5(id, target): Promise<PredictionModelFive[]> {
+  public predictPerformanceModel5(id, target, unique?:boolean): Promise<PredictionModelFive[]> {
     return new Promise<any>((resolve, reject) => {
-      const quarters = target;
+      var quarters;
+      if(unique) {
+        quarters = [target];
+      } else {
+        quarters = target;
+      }
       console.log('quarters', quarters);
       this.http.post(`${this.API_URL}predict-model-5/${id}`, quarters).toPromise().then(res => {
         console.log('get result', res);
