@@ -122,7 +122,7 @@ export class SelectionComponent implements OnInit {
           console.log('res', res);
           this.predictionM5 = res;
           // console.log(this.predictionResult);
-          if (this.predictionResult[0].prediction >= 0.5) {
+          if (Number(this.predictionM5[0].prediction) >= 0.5) {
             this.success = true;
           } else {
             this.success = false;
