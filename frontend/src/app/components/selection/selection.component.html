@@ -11,19 +11,30 @@
                 <form [formGroup]="firstFormGroup" class="full-height mod">
                     <ng-template matStepLabel>Ingrese el id del estudiante</ng-template>
                     <mat-form-field class="full-width py-3">
-                        <input matInput placeholder="Identificador" formControlName="id" required (keyup.enter)="nextStep(1)">
+                        <input matInput placeholder="Identificador" formControlName="id" required
+                            (keyup.enter)="nextStep(1)">
                     </mat-form-field>
                     <div>
-                        <button mat-button matStepperPrevious (click)="goBack()" class="med-width">Volver al inicio</button>
+                        <button mat-button matStepperPrevious (click)="goBack()" class="med-width">Volver al
+                            inicio</button>
                         <button mat-button matStepperNext class="med-width">Siguiente</button>
                     </div>
                 </form>
             </mat-step>
+
+
             <mat-step [stepControl]="secondFormGroup">
                 <ng-template matStepLabel>Seleccione las materias a inscribir en el nuevo trimestre
                 </ng-template>
-                <drag-and-drop [id]="studentId" (targetSubjects)="saveSelection($event)" [loading]="loading" [reset]="resetList"
-                    (loaded)=loaded($event)></drag-and-drop>
+                <mat-vertical-stepper [hidden]="loading">
+                    <mat-step label="Trimestre 1">
+                        <drag-and-drop [id]="studentId" (targetSubjects)="saveSelection($event)" [loading]="loading"
+                            [reset]="resetList" (loaded)=loaded($event)></drag-and-drop>
+                    </mat-step>
+                    <mat-step label="Step 1">
+                        Content 2
+                    </mat-step>
+                </mat-vertical-stepper>
                 <ng-container *ngIf="loading">
                     <div class="card-spinner full-height">
                         <mat-progress-spinner color="primary" mode="indeterminate">
@@ -35,6 +46,7 @@
                     <button mat-button matStepperNext class="med-width">Siguiente</button>
                 </div>
             </mat-step>
+
             <mat-step>
                 <ng-template matStepLabel>Resultado
                 </ng-template>
@@ -43,7 +55,8 @@
                     <i class="material-icons md-90" [ngClass]="success ? 'md-success' : 'md-danger'">
                         {{ success ? 'check_circle_outline' : 'error_outline'}}
                     </i>
-                    <p *ngIf="predictionM5">Probabilidad Obtenida: {{ predictionM5[0].prediction * 100 | number: '.2-2'}}</p>
+                    <p *ngIf="predictionM5">Probabilidad Obtenida:
+                        {{ predictionM5[0].prediction * 100 | number: '.2-2'}}</p>
                     <p> {{ success ? 'El estudiante aprobará todas las materias ingresadas' : 'El estudiante no aprobará todas las materias ingresadas'}}
                     </p>
                 </div>
