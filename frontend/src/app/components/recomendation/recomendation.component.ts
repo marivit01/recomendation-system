@@ -96,14 +96,14 @@ export class RecomendationComponent implements OnInit {
       console.log('res', res);
       this.predictionResult = res.map(r => {
         console.log("iterador map", r);
-        
+
         return {
           prediction: r.prediction,
           subjects: this.getSubjectsName(r)
         }
       });
       console.log("resultado final", this.predictionResult);
-      
+
       // console.log(this.predictionResult);
       // if (this.predictionResult >= 0.5) {
       //   this.success = true;
@@ -114,26 +114,25 @@ export class RecomendationComponent implements OnInit {
     });
   }
 
-  getSubjectsName(predictionRes: PredictionModelFive): { code: string; name: string; disabled: boolean; }[]
-  {
+  getSubjectsName(predictionRes: PredictionModelFive): { code: string; name: string; disabled: boolean; }[] {
     let subjectsInfo: { code: string; name: string; disabled: boolean; }[] = [];
-      predictionRes.subjects.forEach(subjectCode => {
-        // console.log("subject code", subjectCode, this.allSubjects);
-        
-        if (subjectCode != "") {
-          this.allSubjects.forEach(s => {
-            // console.log("eseee", s);
-            
-            if (s.code == subjectCode) {
-              // console.log("if", s.code, subjectCode);
-              
-              subjectsInfo.push(s);
-            }
-            // subjectsInfo.push({ code: subjectCode, name: 'NaN', disabled: true });
+    predictionRes.subjects.forEach(subjectCode => {
+      // console.log("subject code", subjectCode, this.allSubjects);
+
+      if (subjectCode != "") {
+        this.allSubjects.forEach(s => {
+          // console.log("eseee", s);
+
+          if (s.code == subjectCode) {
+            // console.log("if", s.code, subjectCode);
+
+            subjectsInfo.push(s);
           }
-          )
+          // subjectsInfo.push({ code: subjectCode, name: 'NaN', disabled: true });
         }
-      });
+        )
+      }
+    });
     return subjectsInfo;
   }
 
