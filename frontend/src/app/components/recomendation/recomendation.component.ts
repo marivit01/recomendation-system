@@ -24,7 +24,9 @@ export class RecomendationComponent implements OnInit {
   }[];
   loadingPred = false;
   success = false;
+
   availablesFiltered: { code: string; name: string; disabled: boolean; }[];
+  preselectedFiltered: { code: string; name: string; disabled: boolean; }[];
 
   constructor(
     private formBuilder: FormBuilder,
@@ -43,7 +45,8 @@ export class RecomendationComponent implements OnInit {
     });
 
     this.secondFormGroup = this.formBuilder.group({
-      targetSubjects: ['', Validators.required]
+      targetSubjects: ['', Validators.required],
+      preselectedSubjects: ['', Validators]
     });
   }
 
@@ -69,8 +72,13 @@ export class RecomendationComponent implements OnInit {
   }
 
   getAvailablesFiltered(filtered) {
+    // this.secondFormGroup.setValue({ targetSubjects: filtered });
+    this.secondFormGroup.get('targetSubjects').setValue(filtered);
+  }
+
+  getPreselected(filtered) {
     // this.availablesFiltered = filtered;
-    this.secondFormGroup.setValue({ targetSubjects: filtered });
+    this.secondFormGroup.get('preselectedSubjects').setValue(filtered);
 
   }
 
@@ -82,7 +90,8 @@ export class RecomendationComponent implements OnInit {
    */
   getCombinations() {
     this.availablesFiltered = this.secondFormGroup.value.targetSubjects;
-    this.apiService.getCombinations(this.availablesFiltered, this.numberAssigns).then(res => {
+    this.preselectedFiltered = this.secondFormGroup.value.preselectedSubjects;
+    this.apiService.getCombinations(this.availablesFiltered, this.preselectedFiltered, this.numberAssigns).then(res => {
       // console.log('res', res);
       this.allCombinations = res;
       console.log("all subjects combinations", this.allCombinations);

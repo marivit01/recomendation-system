@@ -119,7 +119,7 @@ def getCredits(seenSubjects):
     # print("credits", total_credits, bp_credits)
     return (total_credits, bp_credits)
 
-def createCombinations(availablesArray, assignsNumber):
+def createCombinations(availablesArray, preselectedArray, assignsNumber):
     combinations = []
     final_combinations = pd.DataFrame()
     availables = []
@@ -141,36 +141,57 @@ def createCombinations(availablesArray, assignsNumber):
 
 
     if (assignsNumber != 'all'):
-        number = int(assignsNumber)
+        print('length of presel', len(preselectedArray), preselectedArray)
+        number = int(assignsNumber) - len(preselectedArray) # Establecer número de materias a evaluar incluyendo las preseleccionadas
         print('current number: ', number)
         combs = list(itertools.combinations(availablesArray, number))
+        # Iterador para insertar las materias preseleccionadas
+        if (preselectedArray and len(preselectedArray) > 0):
+            new_combs = []
+            for c in combs:
+                for sel in preselectedArray:            
+                    c = c + (sel,) # las combinaciones individuales son objeto 'tuple', así se concatenan
+                    # print('SEEEEEL 2', sel, c)
+                new_combs.append(c)
+            combs = new_combs
+        # print('COMBSSSSSS', new_combs)
         combs = pd.DataFrame(np.asarray(combs))
-        # print('comb: ',comb)
-        # print('comb array: ', np.asarray(comb))
-        # print('total comb: ',combinations)
-        print('shapes', combs.shape)
-        print('combs', combs)
-        # final_combinations = np.concatenate((final_combinations, combs), axis=None)
+        # # print('comb: ',comb)
+        # # print('comb array: ', np.asarray(comb))
+        # # print('total comb: ',combinations)
+        # print('shapes', combs.shape)
+        # print('combs', combs)
+        # # final_combinations = np.concatenate((final_combinations, combs), axis=None)
         final_combinations = pd.concat([final_combinations, combs])
         # final_combinations.append(combs)
 
         # final_combinations = final_combinations.replace(np.nan, '', regex=True)
         final_combinations = final_combinations.fillna(value='')
-        print('opc2: ', final_combinations)
+        # print('opc2: ', final_combinations)
     else:
         numbers = [2,3,4,5,6]
 
         # Obtener todas las combinaciones posibles de materias, de todas las longitudes posibles
         for number in numbers:
+            number = number - len(preselectedArray)
             print('current number: ', number)
             combs = list(itertools.combinations(availablesArray, number))
+            # Iterador para insertar las materias preseleccionadas
+            if (preselectedArray and len(preselectedArray) > 0):
+                new_combs = []
+                for c in combs:
+                    for sel in preselectedArray:            
+                        c = c + (sel,) # las combinaciones individuales son objeto 'tuple', así se concatenan
+                        # print('SEEEEEL 2', sel, c)
+                    new_combs.append(c)
+                combs = new_combs                
             combs = pd.DataFrame(np.asarray(combs))
-            # print('comb: ',comb)
-            # print('comb array: ', np.asarray(comb))
-            # print('total comb: ',combinations)
-            print('shapes', combs.shape)
-            print('combs', combs)
-            # final_combinations = np.concatenate((final_combinations, combs), axis=None)
+            # # print('comb: ',comb)
+            # # print('comb array: ', np.asarray(comb))
+            # # print('total comb: ',combinations)
+            # print('shapes', combs.shape)
+            # print('combs', combs)
+            # # final_combinations = np.concatenate((final_combinations, combs), axis=None)
             final_combinations = pd.concat([final_combinations, combs])
             # final_combinations.append(combs)
 

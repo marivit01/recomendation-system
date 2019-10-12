@@ -13,7 +13,10 @@ export class DragAndDropComponent implements OnInit, OnChanges {
   @Input() reset = false;
   @Input() recomendation: boolean;
 
+  @Input() fixedSubjects: boolean;
+
   @Output() targetSubjects = new EventEmitter<string[]>();
+  @Output() preselectSubjects = new EventEmitter<string[]>();
   @Output() loaded = new EventEmitter<boolean>();
 
   allSubjects = [];
@@ -51,6 +54,7 @@ export class DragAndDropComponent implements OnInit, OnChanges {
   // ];
 
   studentSubjects = [];
+  preselSubjects = []; // Materias preseleccionadas;
 
   constructor(private apiService: ApiService) { }
 
@@ -85,10 +89,14 @@ export class DragAndDropComponent implements OnInit, OnChanges {
 
   drop(event: CdkDragDrop<string[]>) {
     console.log('all init: ', this.allSubjects);
-    console.log('student init: ', this.studentSubjects);
+    console.log('student init: ', this.studentSubjects, this.preselSubjects);
     if (event.previousContainer === event.container) {
+      console.log("drop 1");
+      
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
     } else {
+      console.log("drop 2");
+      
       transferArrayItem(event.previousContainer.data,
         event.container.data,
         event.previousIndex,
@@ -96,24 +104,29 @@ export class DragAndDropComponent implements OnInit, OnChanges {
     }
 
     console.log('all: ', this.allSubjects);
-    console.log('student: ', this.studentSubjects);
+    console.log('student: ', this.studentSubjects, this.preselSubjects);
     this.formatTarget();
   }
 
   formatTarget() {
     // Se crea un array con los codigos de las materias seleccionadas para el trimestre target, y se emite al componente padre
     const target = [];
-    if(this.recomendation) {
+    const presel = [];
+    if (this.recomendation) {
       this.allSubjects.forEach( subject => {
         target.push(subject.code);
       });
-      console.log('recomendation', target);
-    } else {
+      this.preselSubjects.forEach( subject => {
+        presel.push(subject.code);
+      });
+      console.log('recomendation', target, presel);
+    }  else {
       this.studentSubjects.forEach( subject => {
         target.push(subject.code);
-      })
+      });
       console.log('target normal', target);
     }
     this.targetSubjects.emit(target);
+    this.preselectSubjects.emit(presel);
   }
 }

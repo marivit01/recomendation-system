@@ -46,8 +46,9 @@ def getSubjectsCall(studentId):
 # Función que regresa todas las combinaciones de materias posibles para un estudiante especifico
 @app.route('/api/getCombinations/<assignsNumber>',methods=['POST'])
 def getCombinationsCall(assignsNumber):
-    availableSubjects = request.get_json(force=True)
-    return jsonify(createCombinations(availableSubjects, assignsNumber).tolist()) 
+    data = request.get_json(force=True)
+    print('data for combinations', data, data.get('availables'))
+    return jsonify(createCombinations(data.get('availables'), data.get('preselected'), assignsNumber).tolist()) 
 
 
 @app.route('/api/predict-model-2/<studentId>',methods=['POST']) #http://localhost:8081/api/predict
