@@ -6,8 +6,8 @@ from sklearn.model_selection import train_test_split
 
 def adaptX(studentId):
     studentId = int(studentId)
-    # one_hot_path = os.path.abspath("../datos/modelos/model-5/one_hot_new_classes.csv")
-    one_hot_path = os.path.abspath("../datos/modelos/model-5/datos-modificados/fisica_bajo/one_hot_10085304_fisica_bajo.csv")
+    one_hot_path = os.path.abspath("../datos/modelos/model-5/one_hot_new_classes.csv")
+    # one_hot_path = os.path.abspath("../datos/modelos/model-5/datos-modificados/fisica_bajo/one_hot_10088801_fisica_bajo.csv")
     one_hot = pd.read_csv(one_hot_path)
     grouped = one_hot[one_hot['estudiante'] == studentId].sort_values('trimestre').groupby(['estudiante'])
     print('grouped', grouped, file=sys.stderr)
