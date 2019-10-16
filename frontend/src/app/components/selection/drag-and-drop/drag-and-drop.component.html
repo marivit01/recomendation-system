@@ -17,7 +17,7 @@
         </div>
     </div>
 
-    <div class="example-container">
+    <div class="example-container" *ngIf="recomendation">
         <h2> Materias Preestablecidas </h2>
 
         <div cdkDropList [cdkDropListData]="preselSubjects" class="asignatures-list"
