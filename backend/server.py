@@ -203,7 +203,7 @@ if __name__ == '__main__':
 
 
 #Modelo 5 testeo con split
-# TEST DATA: [array([10073820]) array([10060042]) array([10069092]) array([10085809])
-#  array([10063086]) array([10060084]) array([10077788]) array([10079932])
-#  array([10068800]) array([10072873]) array([10081271]) array([10087101])
-#  array([10065486])]
+# TEST DATA: [array([10068854]) array([10087881]) array([10077126]) array([10078660])
+#  array([10066589]) array([10079147]) array([10091723]) array([10074639])
+#  array([10091471]) array([10061223]) array([10088866]) array([10082111])
+#  array([10065078])]
