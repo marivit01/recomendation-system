@@ -167,7 +167,7 @@ def predictModel5(studentId):
 
     print("target result:", array_target_test, file=sys.stderr)
 
-    modelPath = os.path.abspath("../datos/modelos/model-5/model5.1.3.pkl")
+    modelPath = os.path.abspath("../datos/modelos/model-5/model-5.0.pkl")
     model = joblib.load(open(modelPath,'rb'))
 
     output = model.predict([array_data_test, array_target_test])
