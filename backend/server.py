@@ -20,8 +20,8 @@ import os.path
 
 import sys
 
-from adaptx import adaptX, adaptXModel3 # For model 2 an 3
-from getAssigns import getAvailableSubjects, createCombinations
+from adaptx import adaptX, adaptXModel3, adaptX_test # For model 2 an 3
+from getAssigns import getAvailableSubjects, getAvailableSubjects_test, createCombinations
 from adapty import adapty, adaptYModel3, adaptYModel4, adaptYModel4_V1, adaptYModel5 # For model 2, 3 and 4
 
 # declare constants
@@ -41,7 +41,8 @@ def hello():
 # Función que regresa una lista de los códigos y nombres de las asignaturas que el estudiante no ha visto
 @app.route('/api/getSubjects/<studentId>',methods=['POST'])
 def getSubjectsCall(studentId):
-    return jsonify(getAvailableSubjects(studentId)) 
+    # return jsonify(getAvailableSubjects(studentId)) 
+    return jsonify(getAvailableSubjects_test(studentId)) 
 
 # Función que regresa todas las combinaciones de materias posibles para un estudiante especifico
 @app.route('/api/getCombinations/<assignsNumber>',methods=['POST'])
@@ -160,7 +161,8 @@ def predictModel5(studentId):
 
     targetTrim =  request.get_json(force=True)
     print("TARGET:",targetTrim)
-    array_data_test = adaptX(studentId)
+    # array_data_test = adaptX(studentId)
+    array_data_test = adaptX_test(studentId)
     print("DATA X:", array_data_test[0][0], array_data_test[0][29], array_data_test.shape)
     array_target_test, array_data_test = adaptYModel5(targetTrim, array_data_test)
     print("array", array_data_test.shape, array_target_test[0].shape, file=sys.stderr)

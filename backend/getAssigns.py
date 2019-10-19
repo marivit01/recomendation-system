@@ -43,6 +43,44 @@ def getAvailableSubjects(studentId):
     availableSubjectsFormatted = getSubjectsNames(availableSubjects, total_credits, bp_credits)
     return availableSubjectsFormatted
 
+def getAvailableSubjects_test(studentId):
+    studentId = int(studentId)
+    # one_hot_path = os.path.abspath('..\\datos\\ordenados\\one_hot.csv')
+    one_hot_path = os.path.abspath("../datos/modelos/model-5/one_hot_new_classes.csv")
+    one_hot = pd.read_csv(one_hot_path)
+    grouped = one_hot[one_hot['estudiante'] == studentId].sort_values('trimestre').groupby(['estudiante'])
+    assigns_trim_target = []
+    for est, est_group in grouped:
+        for num in range(est_group.shape[0] - 1):
+            assigns_trim_target = np.append(assigns_trim_target, est_group.iloc[num, 2:].index[est_group.iloc[num, 2:] == 1].values.tolist(), axis=None)
+
+    assigns_trim_target_aux = []
+    for assign in assigns_trim_target:
+        # print(assign.split('_')[0])
+        # Validacion para no incluir la materia en el array de materias vistas si el estudiante no la ha pasado (reprobado o retirado)
+        if (assign.split('_')[1] == "Reprobo" or assign.split('_')[1] == "R"):
+            # print("aqui paso algo",assign.split('_')[1])
+            continue
+        # Validacion para no incluir como vista la materia Electiva, para que el estudiante pueda elegirla siempre como opcion
+        if (assign.split('_')[0] == "FGE0000"):
+            continue
+        assigns_trim_target_aux = np.append(assigns_trim_target_aux, assign.split('_')[0], axis=None)
+    print("materias que vio", np.asarray(assigns_trim_target_aux).tolist())
+
+    #NUEVO
+    seenSubjects = np.asarray(assigns_trim_target_aux)
+    path = os.path.abspath('../datos/subjectNames.csv')
+    subjectNames = pd.read_csv(path).sort_values('asignatura')
+
+    # Se obtienen las materias que el estudiante no ha visto
+    mask = subjectNames['asignatura'].isin(seenSubjects)
+    availableSubjects = subjectNames[~mask]
+
+    # Se llama a la función para transformar las materias disponibles en un array con {code, name}
+    total_credits, bp_credits = getCredits(seenSubjects)
+    availableSubjectsFormatted = getSubjectsNames(availableSubjects, total_credits, bp_credits)
+    return availableSubjectsFormatted
+
 # Función que recibe un array de las materias que un estudiante no ha visto, 
 # y lo devuelve en formato code, name para pasarlo al manejador
 def getSubjectsNames(availablesArray, total_credits, bp_credits):
