@@ -6,9 +6,10 @@ from sklearn.model_selection import train_test_split
 
 def adaptX(studentId):
     studentId = int(studentId)
-    one_hot_path = os.path.abspath("../datos/modelos/model-5/one_hot_know_test.csv")
-    # one_hot_path = os.path.abspath("../datos/modelos/model-5/one_hot_new_classes.csv")
-    # one_hot_path = os.path.abspath("../datos/modelos/model-5/datos-modificados/fisica_bajo/one_hot_10088801_fisica_bajo.csv")
+    # one_hot_path = os.path.abspath("../datos/modelos/model-5/one_hot_know_test.csv")
+    one_hot_path = os.path.abspath("../datos/modelos/model-5/one_hot_new_classes.csv")
+    # one_hot_path = os.path.abspath("../datos/modelos/model-5/datos-modificados/mate_bajo/one_hot_10085304_mate_bajo.csv")
+    # one_hot_path = os.path.abspath("../datos/modelos/model-5/datos-modificados/mate_bajo/one_hot_10088801_mate_bajo.csv")
     one_hot = pd.read_csv(one_hot_path)
     grouped = one_hot[one_hot['estudiante'] == studentId].sort_values('trimestre').groupby(['estudiante'])
     print('grouped', grouped, file=sys.stderr)
@@ -84,7 +85,10 @@ def adaptX_test(studentId):
     studentId = int(studentId)
     # one_hot_path = os.path.abspath("../datos/modelos/model-5/one_hot_know_test.csv")
     one_hot_path = os.path.abspath("../datos/modelos/model-5/one_hot_new_classes.csv")
-    # one_hot_path = os.path.abspath("../datos/modelos/model-5/datos-modificados/fisica_bajo/one_hot_10088801_fisica_bajo.csv")
+    # one_hot_path = os.path.abspath("../datos/modelos/model-5/datos-modificados/mate_bajo/one_hot_10087992_mate_bajo.csv")
+    # one_hot_path = os.path.abspath("../datos/modelos/model-5/datos-modificados/fisica_bajo/one_hot_10087992_fisica_bajo.csv")
+    # one_hot_path = os.path.abspath("../datos/modelos/model-5/datos-modificados/mate_bajo/one_hot_10085304_mate_bajo.csv")
+    # one_hot_path = os.path.abspath("../datos/modelos/model-5/datos-modificados/fisica_bajo/one_hot_10085304_fisica_bajo.csv")
     one_hot = pd.read_csv(one_hot_path)
     grouped = one_hot[one_hot['estudiante'] == studentId].sort_values('trimestre').groupby(['estudiante'])
     print('grouped', grouped, file=sys.stderr)
@@ -113,8 +117,11 @@ def adaptX_test(studentId):
 
         start_trim = max_number_trim - est_group.shape[0] + 1
 
+        print('START TRIM PRINTEEEEEER', start_trim, est_group.shape[0])
+
         for num in range(est_group.shape[0] - 1): #Aquí es cuando se ponen los valores en los trimestres.
             row_trim[start_trim + num ] = est_group.iloc[ num , 3:].values
+        print("rowww trim", len(row_trim), row_trim[29])
         array_data.append(np.asarray(row_trim))
 
     return np.asarray(array_data)
