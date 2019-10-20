@@ -19,8 +19,10 @@
     /* margin: 40px; */
     background-color: rgba(255, 255, 255, 0);
     padding: 0;
-    width: 90vw;
+    width: 80vw;
     margin: auto;
+    box-shadow: none !important;
+    // max-width: 1000px;
 }
 
 .mat-horizontal-content-container {
@@ -58,3 +60,21 @@
         justify-content: space-between;
     }
 }
+
+.card-combination {
+    padding: 10px;
+    margin: 20px 0;
+    height: -webkit-fill-available;
+    border: solid 1px #d3d3d39e;
+    border-radius: 4px;
+    background: white;
+    min-height: 80px;
+    width: 800px;
+    align-self: center;
+  }
+  
+  .simple {
+    height: initial !important;
+    padding: 5px !important;
+    font-size: 14px;
+  }

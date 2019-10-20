@@ -32,7 +32,8 @@ export class SelectionComponent implements OnInit {
   }[];
 
   allSubjects: { code: string; name: string; disabled: boolean; }[];
-
+  isRecom = false;
+  
   constructor(
     private apiService: ApiService,
     private formBuilder: FormBuilder,

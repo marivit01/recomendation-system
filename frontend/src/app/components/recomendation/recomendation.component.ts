@@ -3,6 +3,7 @@ import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { ApiService } from 'src/app/services/api.service';
 import { ActivatedRoute } from '@angular/router';
 import { PredictionModelFive } from 'src/app/models/prediction-model-five';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-recomendation',
@@ -31,7 +32,8 @@ export class RecomendationComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private apiService: ApiService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private location: Location,
   ) { }
 
   ngOnInit() {
@@ -54,15 +56,17 @@ export class RecomendationComponent implements OnInit {
     console.log(step);
     switch (step) {
       case 1:
-        this.loading = true;
-        console.log(step, this.dataForm.value);
-        this.studentId = this.dataForm.value.id;
-        this.numberAssigns = this.dataForm.value.numberAssigns;
-        if (this.numberAssigns === "") {
-          this.numberAssigns = 'all';
+        if (this.studentId !== this.dataForm.value.id) {
+          this.loading = true;
+          console.log(step, this.dataForm.value);
+          this.studentId = this.dataForm.value.id;
         }
-        this.getAvailableSubjects(this.studentId);
-        break;
+          this.numberAssigns = this.dataForm.value.numberAssigns;
+          if (this.numberAssigns === "") {
+            this.numberAssigns = 'all';
+          }
+          this.getAvailableSubjects(this.studentId);
+          break;
       case 2:
         this.loadingPred = true;
         // this.predict();
@@ -155,6 +159,10 @@ export class RecomendationComponent implements OnInit {
       this.allSubjects = res;
       console.log("all subjects", this.allSubjects);
     });
+  }
+
+  goBack() {
+    this.location.back();
   }
 
 }

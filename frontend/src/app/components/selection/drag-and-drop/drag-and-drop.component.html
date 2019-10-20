@@ -1,5 +1,5 @@
-<div cdkDropListGroup *ngIf="!loading">
-    <div class="example-container">
+<div cdkDropListGroup *ngIf="!loading" class="global-container" [ngClass]="!recomendation ? 'comparation' : ''">
+    <div class="asignatures-container">
         <h2>Materias disponibles</h2>
 
         <div cdkDropList [cdkDropListData]="allSubjects" class="asignatures-list" cdkDropListSortingDisabled
@@ -8,7 +8,7 @@
         </div>
     </div>
 
-    <div class="example-container">
+    <div class="asignatures-container">
         <h2>{{ recomendation ? 'Materias descartadas' : 'Materias seleccionadas'}}</h2>
 
         <div cdkDropList [cdkDropListData]="studentSubjects" class="asignatures-list"
@@ -17,8 +17,8 @@
         </div>
     </div>
 
-    <div class="example-container" *ngIf="recomendation">
-        <h2> Materias Preestablecidas </h2>
+    <div class="asignatures-container custom" *ngIf="recomendation">
+        <h2> Materias obligatorias </h2>
 
         <div cdkDropList [cdkDropListData]="preselSubjects" class="asignatures-list"
             (cdkDropListDropped)="drop($event)">
