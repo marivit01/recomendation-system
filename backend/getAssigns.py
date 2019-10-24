@@ -8,6 +8,7 @@ import itertools
 def getAvailableSubjects(studentId):
     studentId = int(studentId)
     # one_hot_path = os.path.abspath('..\\datos\\ordenados\\one_hot.csv')
+    # # one_hot_path = os.path.abspath("../datos/modelos/model-5/datos-modificados/fisica_bajo/one_hot_new_classes_fisica_bajo_10085304.csv")
     one_hot_path = os.path.abspath("../datos/modelos/model-5/one_hot_new_classes.csv")
     one_hot = pd.read_csv(one_hot_path)
     grouped = one_hot[one_hot['estudiante'] == studentId].sort_values('trimestre').groupby(['estudiante'])
