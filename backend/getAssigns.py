@@ -9,7 +9,7 @@ def getAvailableSubjects(studentId):
     studentId = int(studentId)
     # one_hot_path = os.path.abspath('..\\datos\\ordenados\\one_hot.csv')
     # # one_hot_path = os.path.abspath("../datos/modelos/model-5/datos-modificados/fisica_bajo/one_hot_new_classes_fisica_bajo_10085304.csv")
-    one_hot_path = os.path.abspath("../datos/modelos/model-5/one_hot_new_classes.csv")
+    one_hot_path = os.path.abspath("../datos/CSV/one_hot_new_classes.csv")
     one_hot = pd.read_csv(one_hot_path)
     grouped = one_hot[one_hot['estudiante'] == studentId].sort_values('trimestre').groupby(['estudiante'])
     assigns_trim_target = []
@@ -32,7 +32,7 @@ def getAvailableSubjects(studentId):
 
     #NUEVO
     seenSubjects = np.asarray(assigns_trim_target_aux)
-    path = os.path.abspath('../datos/subjectNames.csv')
+    path = os.path.abspath('../datos/CSV/subjectNames.csv')
     subjectNames = pd.read_csv(path).sort_values('asignatura')
 
     # Se obtienen las materias que el estudiante no ha visto
@@ -44,10 +44,11 @@ def getAvailableSubjects(studentId):
     availableSubjectsFormatted = getSubjectsNames(availableSubjects, total_credits, bp_credits)
     return availableSubjectsFormatted
 
+# FUNCTION TO TEST THE BEHAVIOUR AT KNOWN TRIMESTRES (THE LAST ONE OF THE STUDENT)
 def getAvailableSubjects_test(studentId):
     studentId = int(studentId)
     # one_hot_path = os.path.abspath('..\\datos\\ordenados\\one_hot.csv')
-    one_hot_path = os.path.abspath("../datos/modelos/model-5/one_hot_new_classes.csv")
+    one_hot_path = os.path.abspath("../datos/CSV/one_hot_new_classes.csv")
     one_hot = pd.read_csv(one_hot_path)
     grouped = one_hot[one_hot['estudiante'] == studentId].sort_values('trimestre').groupby(['estudiante'])
     assigns_trim_target = []
@@ -70,7 +71,7 @@ def getAvailableSubjects_test(studentId):
 
     #NUEVO
     seenSubjects = np.asarray(assigns_trim_target_aux)
-    path = os.path.abspath('../datos/subjectNames.csv')
+    path = os.path.abspath('../datos/CSV/subjectNames.csv')
     subjectNames = pd.read_csv(path).sort_values('asignatura')
 
     # Se obtienen las materias que el estudiante no ha visto
@@ -85,7 +86,7 @@ def getAvailableSubjects_test(studentId):
 # Función que recibe un array de las materias que un estudiante no ha visto, 
 # y lo devuelve en formato code, name para pasarlo al manejador
 def getSubjectsNames(availablesArray, total_credits, bp_credits):
-    print('TOTAL CREDITOOOOOOOS', total_credits)
+    # print('TOTAL CREDITOOOOOOOS', total_credits)
     subjectsArray = []
     for idx, subject in availablesArray.iterrows():
         # print("valores", subject.values, subject.values[5], subject.values[6])
@@ -93,14 +94,14 @@ def getSubjectsNames(availablesArray, total_credits, bp_credits):
 
         if (isinstance(subject.values[8], str)):
             ## CASO ESPECIAL LISTA 5 -> ORDEN: [materia lista siguiente, materia de lista 1]
-            print("LENGTH: ", len(subject.values[8].split(' ')))
+            # print("LENGTH: ", len(subject.values[8].split(' ')))
             if (len(subject.values[8].split(' ')) > 1):
-                print("disponibles: ", availablesArray)
-                print("materias que siguen:", subject.values[8].split(' '))
-                print("m1:", list(subject.values[8].split(' ')[0]))
-                print("m2:", list(subject.values[8].split(' ')[1]))
+                # print("disponibles: ", availablesArray)
+                # print("materias que siguen:", subject.values[8].split(' '))
+                # print("m1:", list(subject.values[8].split(' ')[0]))
+                # print("m2:", list(subject.values[8].split(' ')[1]))
 
-                print("SI O QUE: ", availablesArray['asignatura'].isin(list(subject.values[8].split(' ')[1])).any())
+                # print("SI O QUE: ", availablesArray['asignatura'].isin(list(subject.values[8].split(' ')[1])).any())
 
                 # Asignaturas que no vio porque empezó en una lista que no las requiere o no hacen falta ver
                 if (availablesArray['asignatura'].isin(list(subject.values[8].split(' ')[1])).any() == False): 
@@ -147,37 +148,37 @@ def getSubjectsNames(availablesArray, total_credits, bp_credits):
 def getCredits(seenSubjects, studentId, isTest):
     total_credits = 0
     bp_credits = 0
-    print("seen subjects", len(seenSubjects))
+    # print("seen subjects", len(seenSubjects))
 
-    notas_path = os.path.abspath("../datos/modelos/model-5/notas_new_classes.csv")
+    notas_path = os.path.abspath("../datos/CSV/notas_new_classes.csv")
     notas = pd.read_csv(notas_path)
     grouped = notas[notas['id'] == studentId].sort_values('trimestre').groupby(['id'])
     assigns_trim_target = []
     for est, est_group in grouped:
-        print("EST GROUPPPP", est_group.shape[0])
+        # print("EST GROUPPPP", est_group.shape[0])
         # print(est_group.groupby(['trimestre']))
         grouped_trim = est_group.groupby(['trimestre'])
 
         trim_qty = len(est_group['trimestre'].unique())
         counter_trim = 0
-        print('range', len(est_group['trimestre'].unique()))
+        # print('range', len(est_group['trimestre'].unique()))
         for est_trim, est_group_trim in grouped_trim:
             counter_trim += 1
-            print(counter_trim, '/ ', trim_qty)
+            # print(counter_trim, '/ ', trim_qty)
             if (not isTest):
                 if(counter_trim <= trim_qty):
-                    print("typet", type(est_group_trim))
+                    # print("typet", type(est_group_trim))
                     for index, subject in est_group_trim.iterrows():
-                        print("subject seen", subject)
+                        # print("subject seen", subject)
                         if(subject['clasificacion_nota'] != 'R' and subject['clasificacion_nota'] != 'Reprobo' ):
                             total_credits += 1
                             if (subject['asignatura'].find('BP') == 0):
                                 bp_credits += 1
             else:
                 if(counter_trim < trim_qty):
-                    print("typet", type(est_group_trim))
+                    # print("typet", type(est_group_trim))
                     for index, subject in est_group_trim.iterrows():
-                        print("subject seen", subject)
+                        # print("subject seen", subject)
                         if(subject['clasificacion_nota'] != 'R' and subject['clasificacion_nota'] != 'Reprobo' ):
                             total_credits += 1
                             if (subject['asignatura'].find('BP') == 0):
@@ -209,9 +210,9 @@ def createCombinations(availablesArray, preselectedArray, assignsNumber):
 
 
     if (assignsNumber != 'all'):
-        print('length of presel', len(preselectedArray), preselectedArray)
+        # print('length of presel', len(preselectedArray), preselectedArray)
         number = int(assignsNumber) - len(preselectedArray) # Establecer número de materias a evaluar incluyendo las preseleccionadas
-        print('current number: ', number)
+        # print('current number: ', number)
         combs = list(itertools.combinations(availablesArray, number))
         # Iterador para insertar las materias preseleccionadas
         if (preselectedArray and len(preselectedArray) > 0):
@@ -265,10 +266,10 @@ def createCombinations(availablesArray, preselectedArray, assignsNumber):
 
         # final_combinations = final_combinations.replace(np.nan, '', regex=True)
         final_combinations = final_combinations.fillna(value='')
-        print('opc2: ', final_combinations)     
+        # print('opc2: ', final_combinations)     
     
     # Print the obtained combinations 
-    print('final combs: ', np.asarray(final_combinations))  
+    # print('final combs: ', np.asarray(final_combinations))  
     return np.asarray(final_combinations)
 
 

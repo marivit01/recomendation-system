@@ -82,7 +82,7 @@ export class ApiService {
         quarters = target;
       }
       console.log('quarters', quarters);
-      this.http.post(`${this.API_URL}predict-model-5/${id}`, quarters).toPromise().then(res => {
+      this.http.post(`${this.API_URL}predict-model/${id}`, quarters).toPromise().then(res => {
         console.log('get result', res);
         resolve(res as PredictionModelFive);
       }).catch(err => {
