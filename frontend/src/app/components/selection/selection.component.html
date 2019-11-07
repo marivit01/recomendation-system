@@ -1,10 +1,6 @@
 <div class="container">
     <mat-card class="card">
-        <!-- <button mat-button (click)="goBack()">
-            <i class="material-icons md-40">
-                arrow_back
-            </i>
-        </button> -->
+
         <mat-horizontal-stepper class="stepper-box" linear="true" #stepper
             (selectionChange)="nextStep($event.selectedIndex)">
             <mat-step [stepControl]="firstFormGroup">
@@ -22,7 +18,6 @@
                 </form>
             </mat-step>
 
-
             <mat-step [stepControl]="secondFormGroup">
                 <ng-template matStepLabel>Seleccione las materias a inscribir para cada alternativa
                 </ng-template>
@@ -31,17 +26,13 @@
                         <drag-and-drop [id]="studentId" [recomendation]="isRecom" (targetSubjects)="saveSelection($event, 1)" [loading]="loading"
                             [reset]="resetList" (loaded)=loaded($event)></drag-and-drop>
                         <div>
-                            <!-- <button mat-button matStepperPrevious class="med-width">Atrás</button>
-                            <button mat-button matStepperNext class="med-width">Siguiente</button> -->
+
                         </div>
                     </mat-step>
                     <mat-step label="Segunda alternativa">
                         <drag-and-drop [id]="studentId" [recomendation]="isRecom" (targetSubjects)="saveSelection($event, 2)" [loading]="loading"
                             [reset]="resetList" (loaded)=loaded($event)></drag-and-drop>
-                        <!-- <div>
-                            <button mat-button matStepperPrevious class="med-width">Atrás</button>
-                            <button mat-button matStepperNext class="med-width">Siguiente</button>
-                        </div> -->
+
                     </mat-step>
                 </mat-vertical-stepper>
                 <ng-container *ngIf="loading">
@@ -61,20 +52,12 @@
                     Resultado
                 </ng-template>
                 <div class="result-grid py-2 full-height" *ngIf="!loadingPred">
-                    <!-- <img class="icon" [src]="success ? '../../../assets/happy.png' : '../../../assets/sad.png'" /> -->
-                    <!-- <i class="material-icons md-90" [ngClass]="success ? 'md-success' : 'md-danger'">
-                        {{ success ? 'check_circle_outline' : 'error_outline'}}
-                    </i>
-                    <p *ngIf="predictionM5">Probabilidad Obtenida:
-                        {{ predictionM5[0].prediction * 100 | number: '.2-2'}}</p>
-                    <p> {{ success ? 'El estudiante aprobará todas las materias ingresadas' : 'El estudiante no aprobará todas las materias ingresadas'}}
-                    </p> -->
                     <h3> Puntajes obtenidos </h3>
                     <mat-card class="card-combination" *ngFor="let combination of predictionResult">
-                        <mat-grid-list cols="2" rowHeight="150px">
+                        <mat-grid-list cols="2" rowHeight="130px">
                             <mat-grid-tile colspan="1" rowspan="1">
 
-                                <mat-list>
+                                <mat-list style="padding: 8px 0">
                                     <mat-list-item class="simple" *ngFor="let subject of combination.subjects">
                                         <p matLine>
                                             <span> {{ subject.name }} </span>
@@ -99,11 +82,5 @@
                 </div>
             </mat-step>
         </mat-horizontal-stepper>
-        <!-- <mat-card>
-            <mat-card-content *ngIf="loading">
-                <mat-progress-spinner color="blue" mode="indeterminate">
-                </mat-progress-spinner>
-            </mat-card-content>
-        </mat-card> -->
     </mat-card>
 </div>

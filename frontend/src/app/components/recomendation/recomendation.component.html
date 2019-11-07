@@ -49,10 +49,10 @@
                 -->
                     <h3> Combinaciones obtenidas</h3>
                     <mat-card class="card-combination" *ngFor="let combination of predictionResult">
-                            <mat-grid-list cols="2" rowHeight="150px">
+                            <mat-grid-list cols="2" rowHeight="130px">
                                 <mat-grid-tile colspan="1" rowspan="1">
     
-                                    <mat-list>
+                                    <mat-list style="padding: 8px 0">
                                         <mat-list-item class="simple" *ngFor="let subject of combination.subjects">
                                             <p matLine>
                                                 <span> {{ subject.name }} </span>
@@ -75,7 +75,7 @@
                 </div>
                 <div>
                     <button mat-button matStepperPrevious class="med-width">Atrás</button>
-                    <button mat-button (click)="stepper.reset()" class="med-width">Resetear</button>
+                    <button mat-button (click)="stepper.reset(); reset()" class="med-width">Resetear</button>
                 </div>
             </mat-step>
         </mat-horizontal-stepper>
