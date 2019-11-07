@@ -4,3 +4,6 @@
 .datos/modelos/modelos-varios/*
 .datos/ordenados/*
 .datos/Various/*
+datos/CSV/one_hot_know_test.csv
+datos/CSV/one_hot_new_classes.csv
+datos/CSV/notas_new_classes.csv
