@@ -58,19 +58,19 @@ export class RecomendationComponent implements OnInit {
     switch (step) {
       case 1:
         this.resetList = false;
-        console.log('dataformmmm:',this.dataForm.value);
+        console.log('dataformmmm:', this.dataForm.value);
         console.log('second formmmm:', this.secondFormGroup.value);
         if (this.studentId !== this.dataForm.value.id) {
           this.loading = true;
           console.log(step, this.dataForm.value);
           this.studentId = this.dataForm.value.id;
         }
-          this.numberAssigns = this.dataForm.value.numberAssigns;
-          if (this.numberAssigns === "" || !this.numberAssigns) {
-            this.numberAssigns = 'all';
-          }
-          this.getAvailableSubjects(this.studentId);
-          break;
+        this.numberAssigns = this.dataForm.value.numberAssigns;
+        if (this.numberAssigns === "" || !this.numberAssigns) {
+          this.numberAssigns = 'all';
+        }
+        this.getAvailableSubjects(this.studentId);
+        break;
       case 2:
         this.loadingPred = true;
         // this.predict();

@@ -63,6 +63,7 @@ export class SelectionComponent implements OnInit {
     console.log(step);
     switch (step) {
       case 1:
+        this.resetList = false;
         if (this.studentId !== this.firstFormGroup.value.id) {
           this.loading = true;
           console.log(step, this.firstFormGroup.value);

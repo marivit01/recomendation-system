@@ -21,7 +21,7 @@
             <mat-step [stepControl]="secondFormGroup">
                 <ng-template matStepLabel>Seleccione las materias a inscribir para cada alternativa
                 </ng-template>
-                <mat-vertical-stepper [hidden]="loading" class="stepper-box">
+                <mat-vertical-stepper [hidden]="loading" class="stepper-box" #vertStepper>
                     <mat-step label="Primera alternativa">
                         <drag-and-drop [id]="studentId" [recomendation]="isRecom" (targetSubjects)="saveSelection($event, 1)" [loading]="loading"
                             [reset]="resetList" (loaded)=loaded($event)></drag-and-drop>
@@ -78,7 +78,7 @@
                 </div>
                 <div>
                     <button mat-button matStepperPrevious class="med-width">Atrás</button>
-                    <button mat-button (click)="reset(); stepper.reset()" class="med-width">Resetear</button>
+                    <button mat-button (click)="reset(); stepper.reset(); vertStepper.reset();" class="med-width">Resetear</button>
                 </div>
             </mat-step>
         </mat-horizontal-stepper>

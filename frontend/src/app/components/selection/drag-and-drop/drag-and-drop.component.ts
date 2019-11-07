@@ -69,10 +69,10 @@ export class DragAndDropComponent implements OnInit, OnChanges {
     }
     if (this.reset) {
       this.studentSubjects = [];
-      if(this.recomendation) {
+      if (this.recomendation) {
         this.preselSubjects = [];
-        this.getAvailableSubjects(this.id);
       }
+      this.getAvailableSubjects(this.id);
       this.reset = false;
     }
   }
