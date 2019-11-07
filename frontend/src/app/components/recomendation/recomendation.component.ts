@@ -3,6 +3,7 @@ import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { ApiService } from 'src/app/services/api.service';
 import { ActivatedRoute } from '@angular/router';
 import { PredictionModelFive } from 'src/app/models/prediction-model-five';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-recomendation',
@@ -27,11 +28,13 @@ export class RecomendationComponent implements OnInit {
 
   availablesFiltered: { code: string; name: string; disabled: boolean; }[];
   preselectedFiltered: { code: string; name: string; disabled: boolean; }[];
+  resetList = false;
 
   constructor(
     private formBuilder: FormBuilder,
     private apiService: ApiService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private location: Location,
   ) { }
 
   ngOnInit() {
@@ -46,7 +49,7 @@ export class RecomendationComponent implements OnInit {
 
     this.secondFormGroup = this.formBuilder.group({
       targetSubjects: ['', Validators.required],
-      preselectedSubjects: ['', Validators]
+      preselectedSubjects: ['']
     });
   }
 
@@ -54,11 +57,16 @@ export class RecomendationComponent implements OnInit {
     console.log(step);
     switch (step) {
       case 1:
-        this.loading = true;
-        console.log(step, this.dataForm.value);
-        this.studentId = this.dataForm.value.id;
+        this.resetList = false;
+        console.log('dataformmmm:', this.dataForm.value);
+        console.log('second formmmm:', this.secondFormGroup.value);
+        if (this.studentId !== this.dataForm.value.id) {
+          this.loading = true;
+          console.log(step, this.dataForm.value);
+          this.studentId = this.dataForm.value.id;
+        }
         this.numberAssigns = this.dataForm.value.numberAssigns;
-        if (this.numberAssigns === "") {
+        if (this.numberAssigns === "" || !this.numberAssigns) {
           this.numberAssigns = 'all';
         }
         this.getAvailableSubjects(this.studentId);
@@ -91,6 +99,8 @@ export class RecomendationComponent implements OnInit {
   getCombinations() {
     this.availablesFiltered = this.secondFormGroup.value.targetSubjects;
     this.preselectedFiltered = this.secondFormGroup.value.preselectedSubjects;
+    console.log('disponibles:', this.availablesFiltered);
+    console.log('obligatorias:', this.preselectedFiltered);
     this.apiService.getCombinations(this.availablesFiltered, this.preselectedFiltered, this.numberAssigns).then(res => {
       // console.log('res', res);
       this.allCombinations = res;
@@ -155,6 +165,18 @@ export class RecomendationComponent implements OnInit {
       this.allSubjects = res;
       console.log("all subjects", this.allSubjects);
     });
+  }
+
+  goBack() {
+    this.location.back();
+  }
+
+  reset() {
+    console.log('antes reset:', this.secondFormGroup.value);
+    this.secondFormGroup.get('preselectedSubjects').setValue([]);
+    this.secondFormGroup.get('targetSubjects').setValue([]);
+    console.log('despues de reset:', this.secondFormGroup.value, this.dataForm.value);
+    this.resetList = true;
   }
 
 }

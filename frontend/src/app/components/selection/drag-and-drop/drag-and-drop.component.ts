@@ -5,7 +5,7 @@ import { ApiService } from 'src/app/services/api.service';
 @Component({
   selector: 'drag-and-drop',
   templateUrl: './drag-and-drop.component.html',
-  styleUrls: ['./drag-and-drop.component.css']
+  styleUrls: ['./drag-and-drop.component.scss']
 })
 export class DragAndDropComponent implements OnInit, OnChanges {
   @Input() id: string;
@@ -69,6 +69,11 @@ export class DragAndDropComponent implements OnInit, OnChanges {
     }
     if (this.reset) {
       this.studentSubjects = [];
+      if (this.recomendation) {
+        this.preselSubjects = [];
+      }
+      this.getAvailableSubjects(this.id);
+      this.reset = false;
     }
   }
 
