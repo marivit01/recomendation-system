@@ -41,10 +41,10 @@ def hello():
 # Función que regresa una lista de los códigos y nombres de las asignaturas que el estudiante no ha visto
 @app.route('/api/getSubjects/<studentId>',methods=['POST'])
 def getSubjectsCall(studentId):
-    return jsonify(getAvailableSubjects(studentId)) 
+    # return jsonify(getAvailableSubjects(studentId)) 
 
     # UNCOMMENT THE NEXT LINE TO USE THE STUDENTS IN TEST SET
-    # return jsonify(getAvailableSubjects_test(studentId))
+    return jsonify(getAvailableSubjects_test(studentId))
 
 # Función que regresa todas las combinaciones de materias posibles para un estudiante especifico
 @app.route('/api/getCombinations/<assignsNumber>',methods=['POST'])
@@ -89,9 +89,9 @@ def predictModel(studentId):
     # print("TARGET:",targetTrim)
 
     # UNCOMMENT THE NEXT LINE TO TEST WITH KNOWN TRIMESTRES
-    # array_data_test = adaptX_test(studentId)
+    array_data_test = adaptX_test(studentId)
 
-    array_data_test = adaptX(studentId)
+    # array_data_test = adaptX(studentId)
 
     # print("DATA X:", array_data_test[0][0], array_data_test[0][29], array_data_test.shape)
 
